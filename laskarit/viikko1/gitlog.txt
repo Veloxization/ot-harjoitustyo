@@ -1,0 +1,113 @@
+commit 86875b15b3e708314d6ed93be9ebf81583588508
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 10:54:33 2021 +0200
+
+    Poistettu file1, uudelleennimetty file2 -> file22
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 3e32a67835048045824ec655bbbfe01e90df087a
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 10:49:54 2021 +0200
+
+    Lisätty file1, file2, file3
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 025919277c79bb7d8e9ad0de11ff9917b327c147
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 10:45:07 2021 +0200
+
+    Lisäyksiä ja poistoja: eka ja kolmas
+
+ eka.txt    | 4 ++--
+ kolmas.txt | 4 +++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+commit d9efbab9e3e5ff9427a8e37016de987668b30b25
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 10:41:37 2021 +0200
+
+    Vaihdettu nimeä: tiedosto.txt -> eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 0339eeda2a92a616f83e55ac917e8f5466ad54e0
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 10:40:27 2021 +0200
+
+    Poistettu: toinen.txt
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 735aa8636b32c070acad261da8bf9169e67ee621
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 10:35:14 2021 +0200
+
+    muokattu tiedosto.txt loppua
+
+ tiedosto.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit aea962085bcc03e2e8610f28cde6edf160edf815
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 10:31:06 2021 +0200
+
+    lisätty paljon tekstiä tiedosto.txt
+
+ tiedosto.txt | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+commit 1f8d004c21693f779e7e89e770ce433e8e6051e6
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 10:00:44 2021 +0200
+
+    lisätty stuff ja script
+
+ stuff/script.sh | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit 2bdd6fb1336c0d42136bc0adf9c0aa8566f77c95
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 09:57:05 2021 +0200
+
+    muokattu toinen ja kolmas
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 6a7930cc7e9d47f857a4fe97b0f76303317775ac
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 09:55:54 2021 +0200
+
+    lisätty kolmas
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 45badb72cd2de67267692b540d654c18116c2bf1
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 09:53:52 2021 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 2 ++
+ toinen.txt   | 0
+ 2 files changed, 2 insertions(+)
+
+commit 4f064cc6668415d9c6377b8da66767eedb12dd9e
+Author: Veloxization <github@velo.anonaddy.com>
+Date:   Sat Mar 20 09:52:17 2021 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
