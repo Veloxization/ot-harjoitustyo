@@ -11,3 +11,5 @@ _Maybe_ when I have a reason to.
 ### Viikko 1
 * [GitLog](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 * [Komentorivi](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+# Desync
+This edit is only meant to _desync_ the readme files.
