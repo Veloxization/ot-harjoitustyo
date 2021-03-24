@@ -1,15 +1,12 @@
 # README
-## What even is this?
-Quite frankly: *I don't know!* But wouldn't **you** like to know?
-## What this isn't:
-* Something that makes sense
-* Something that has a purpose
-* Something I used a lot of time and effort on
-## Will this be updated?
-_Maybe_ when I have a reason to.
+## What is this?
+This is a project repository for a uni course. It has the main project as well as other small assignments.
+## What's the main project about?
+The main project is a small scale detective game developed with Python. A murder mystery scenario is generated at the start of each game and the player can interrogate the NPCs about their actions throughout the night to deduce who the murderer is and when the murder was committed. Further details in [Requirements](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/requirements.md).
 ## Tasks
 ### Viikko 1
 * [GitLog](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 * [Komentorivi](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
-# Desync
-This edit is only meant to _desync_ the readme files.
+# Links
+* [Software Requirements Specification](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/requirements.md)
+* [Work hour sheet](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/workhours.md)
