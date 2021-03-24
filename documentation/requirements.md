@@ -3,7 +3,7 @@
 A simple detective game where at the start of each new game, a new murder mystery scenario is procedurally generated and the player has to deduce who the murderer is by interrogating NPC characters.
 ## UI Plan
 The game will have two main UIs: The main menu and the game UI itself (detailed below). The game UI will also have a few submenus.
-<img src="raw.githubusercontent.com/veloxization/ot-harjoitustyo/master/documentation/images/gameUI.png">
+<img src="https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/images/gameUI.png?raw=true">
 ## Basic functionality
 ### Main Menu
 * New Game
