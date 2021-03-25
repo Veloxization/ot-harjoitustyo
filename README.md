@@ -7,6 +7,11 @@ The main project is a small scale detective game developed with Python. A murder
 ### Viikko 1
 * [GitLog](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
 * [Komentorivi](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+### Viikko 2
+* [Maksukortti Test 1](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko2/maksukortti/src/tests/maksukortti_test.py)
+* [Maksukortti Test 2](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko2/unicafe/src/tests/maksukortti_test.py)
+* [Kassapaate Test](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko2/unicafe/src/tests/kassapaate_test.py)
+* [Coverage Screenshot](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko2/screen.png)
 ## Links
 * [Software Requirements Specification](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/requirements.md)
 * [Work hour sheet](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/workhours.md)
