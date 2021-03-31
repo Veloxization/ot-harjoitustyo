@@ -1,0 +1,24 @@
+// For https://yuml.me/
+[Pelilauta]1-40[Ruutu]1-1..8[Pelinappula]1-1[Pelaaja]1-*[Raha]
+
+[Ruutu|seuraava ruutu]-1[Ruutu]
+
+[Toiminto]1-[Kortti]
+[Toiminto]1-[Ruutu]
+[Kortti]*-*[Sattuma]
+[Kortti]*-*[Yhteismaa]
+
+[Talo]0..4-1[Katu]*-1[Pelaaja]
+[Hotelli]0..1-1[Katu]
+
+[Monopoli]<-1[Pelilauta]
+[Monopoli]<-2..8[Pelaaja]
+[Monopoli]<-2[Noppa]
+
+[Monopoli]<-[Aloitusruutu]->[Ruutu]
+[Monopoli]<-[Vankila]->[Ruutu]
+[Sattuma]->[Ruutu]
+[Yhteismaa]->[Ruutu]
+[Asema]->[Ruutu]
+[Laitos]->[Ruutu]
+[Katu|nimi]->[Ruutu]
