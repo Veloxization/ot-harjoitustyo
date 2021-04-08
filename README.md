@@ -12,6 +12,11 @@ The main project is a small scale detective game developed with Python. A murder
 * [Maksukortti Test 2](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko2/unicafe/src/tests/maksukortti_test.py)
 * [Kassapaate Test](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko2/unicafe/src/tests/kassapaate_test.py)
 * [Coverage Screenshot](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko2/screen.png)
+### Viikko 3
+* [Task 1](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko3/task1.png)
+* [Task 2](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko3/task2.png) ([source](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko3/task2.src))
+* [Task 3](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko3/task3.png) ([source](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko3/task3.src))
+* [Task 4](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko3/task4.png) ([source](https://github.com/Veloxization/ot-harjoitustyo/blob/master/laskarit/viikko3/task4.src))
 ## Links
 * [Software Requirements Specification](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/requirements.md)
 * [Work hour sheet](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/workhours.md)
