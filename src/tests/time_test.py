@@ -4,16 +4,16 @@ from classes.time import Time
 
 class TestTime(unittest.TestCase):
     def setUp(self):
-        self.time = Time(datetime.datetime(1900,1,2,hour=0, minute=0))
+        self.time = Time(36)
         self.index = 9
         self.string = "19:30"
         self.wanted_time = datetime.datetime(1900,1,1,hour=19, minute=30)
 
-    def test_final_index_is_set_correctly(self):
-        test_time = Time(datetime.datetime(1900,1,1,hour=18, minute=30))
-        self.assertEqual(test_time.final_index, 3)
-        test_time = Time(datetime.datetime(1900,1,1,hour=19, minute=10))
-        self.assertEqual(test_time.final_index, 7)
+    def test_final_time_is_set_correctly(self):
+        test_time = Time(3)
+        self.assertEqual(test_time.final_time, datetime.datetime(1900,1,1,hour=18, minute=30))
+        test_time = Time(7)
+        self.assertEqual(test_time.final_time, datetime.datetime(1900,1,1,hour=19, minute=10))
 
     def test_index_to_time_works_correctly(self):
         result_time = self.time.index_to_time(9)
@@ -38,3 +38,19 @@ class TestTime(unittest.TestCase):
     def test_string_to_time_works_correctly(self):
         result_time = self.time.string_to_time("19:30")
         self.assertEqual(self.wanted_time, result_time)
+
+    def test_index_to_time_returns_final_time_with_large_index(self):
+        result_time = self.time.index_to_time(9999999)
+        self.assertEqual(result_time, datetime.datetime(1900,1,2))
+
+    def test_time_to_index_returns_final_time_with_later_time(self):
+        result_index = self.time.time_to_index(datetime.datetime(2000,1,1))
+        self.assertEqual(result_index, 36)
+
+    def test_string_to_time_returns_none_with_incompatible_string(self):
+        result_time = self.time.string_to_time("TEST")
+        self.assertEqual(result_time, None)
+
+    def test_string_to_index_returns_none_with_incompatible_string(self):
+        result_index = self.time.string_to_index("TEST")
+        self.assertEqual(result_index, None)

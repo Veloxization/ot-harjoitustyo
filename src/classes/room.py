@@ -1,10 +1,17 @@
 class Room:
-    def __init__(self,name):
+    def __init__(self,name,time_object):
         # Name of the room
         self.name = name
         # List of the NPCs in the room at a given time, takes sets
-        self.npcs = []
+        self.npcs = [set() for i in range(time_object.final_index+1)]
+        # List of adjacent rooms
+        self.adjacent_rooms = set()
 
     # Adds an NPC to the room at a given time
-    def add_npc(self,time,npc):
-        print("TODO")
+    def add_npc(self,index,npc):
+        if npc:
+            self.npcs[index].add(npc)
+
+    def add_adjacent_room(self,room):
+        if room:
+            self.adjacent_rooms.add(room)

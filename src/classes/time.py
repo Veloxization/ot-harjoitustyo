@@ -1,20 +1,19 @@
 import datetime
 
 class Time:
-    def __init__(self,final_time):
+    def __init__(self,final_index):
         # The night starts at 6 PM on an arbitrary day
         self.start_time = datetime.datetime(1900,1,1,hour=18, minute=0)
-        # The time when the body is discovered by someone
-        self.final_time = final_time
-        self.final_index = ((self.final_time - self.start_time).total_seconds() // 60) // 10
+        self.final_index = final_index
+        self.final_time = self.start_time + datetime.timedelta(minutes=final_index * 10)
 
     def index_to_time(self,index):
         # Lists don't have negative indices!
         if index < 0: index = 0
         delta = datetime.timedelta(minutes=index * 10)
         time = self.start_time + delta
-        # Index cannot go over specified final time!
-        if (self.final_time - time).total_seconds() >= 0:
+        # Index cannot go over final index!
+        if index < self.final_index:
             return self.start_time + delta
         else:
             return self.final_time

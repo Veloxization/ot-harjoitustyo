@@ -3,3 +3,7 @@ laskarit/viikko2/unicafe/src/__pycache__/
 laskarit/viikko2/unicafe/src/tests/__pycache__/
 laskarit/viikko2/unicafe/.coverage
 laskarit/viikko2/unicafe/htmlcov/
+.pytest_cache
+__pycache__
+htmlcov
+.coverage
