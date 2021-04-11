@@ -4,4 +4,5 @@
 | 24.3.| 1:30 | Starting documentation |
 | 9.4. | 1:00 | Coding the Time class  |
 | 10.4.| 2:00 | Finished Time class, moved on to other classes and the main file as well as tests and coverage |
-| Total| 4:30 | |
+| 11.4.| 3:00 | Started working on scenario generation, index.py runs, finished the file listing NPC names |
+| Total| 7:30 | |

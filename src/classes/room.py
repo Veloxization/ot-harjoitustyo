@@ -13,5 +13,6 @@ class Room:
             self.npcs[index].add(npc)
 
     def add_adjacent_room(self,room):
-        if room:
+        if room and room != self:
             self.adjacent_rooms.add(room)
+            room.adjacent_rooms.add(self)

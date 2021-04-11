@@ -12,6 +12,16 @@ class Npc:
         self.personality = personality
         self.obsession = obsession
 
+    def set_personality(self,personality):
+        if not personality:
+            self.personality = "NORMAL"
+        else:
+            self.personality = personality
+
+    def set_obsession(self,npc):
+        if npc:
+            self.obsession = npc
+
     def stay_in_room(self):
         self.routine.append(self.current_room)
         self.current_room.add_npc(len(routine),self)
@@ -20,3 +30,6 @@ class Npc:
         self.current_room = room
         self.routine.append(self.current_room)
         self.current_room.add_npc(len(routine),self)
+
+    def get_room_at_time(self,index):
+        return self.routine[index]
