@@ -20,8 +20,8 @@ class ScenarioGenerator:
 
         # A single scenario takes anywhere between 5 and 9 hours
         self.body_discovered_index = random.randint(30,54)
-        # The murder is committed anywhere between 10 and 110 minutes before discovery
-        self.murder_committed_index = self.body_discovered_index - random.randint(1,11)
+        # The murder is committed anywhere between 10 and 200 minutes before discovery (adjust this if too difficult?)
+        self.murder_committed_index = self.body_discovered_index - random.randint(1,20)
         self.time = Time(self.body_discovered_index)
 
         # Split rooms by floor so they are easier to manage for difficulty settings
@@ -63,9 +63,60 @@ class ScenarioGenerator:
         # For now, easy will be the only difficulty to test the function of the game
         self.rooms = rooms_G
 
+        # Select the room where the murder will be committed
+        self.crime_scene = random.choice([room for room in list(self.rooms.values()) if room != rooms_G["main_hall"] and room != rooms_LG["basement_hall"] and room != rooms_1F["upstairs_hall"]])
+
         with open("src/data/names.txt") as f:
             names = f.read().splitlines()
         self.npcs = []
         npc_names = random.sample(names, len(self.rooms)+1)
         for name in npc_names:
             self.npcs.append(Npc(name,self.rooms["main_hall"],"NORMAL"))
+
+        # Set the special NPC traits
+        # Murderer acts like a normal NPC, visiting random rooms, but will move in a pre-selected room with the victim until the kill
+        self.npcs[0].set_personality("MURDERER")
+        self.murderer = self.npcs[0]
+        # Victim acts like a normal NPC but will move to a pre-selected room with the murderer
+        self.npcs[1].set_personality("VICTIM")
+        self.victim = self.npcs[1]
+        # The liar will use separate fake routines for each NPC
+        self.npcs[2].set_personality("LIAR")
+        self.liar = self.npcs[2]
+        # An obsessive person will stay in an adjacent room to their randomly selected obsession at all times
+        self.npcs[-1].set_personality("OBSESSIVE")
+        self.npcs[-1].set_obsession(random.choice([npc for npc in self.npcs if npc != self.npcs[-1]]))
+        self.obsessive = self.npcs[-1]
+
+        # Select the NPC (other than the victim or liar) who discovers the body. Can be the murderer themselves!
+        self.discoverer = random.choice([npc for npc in self.npcs if npc != self.victim and npc != self.liar])
+
+        # Generate a routine for each NPC
+        for npc in self.npcs:
+            for i in range(1, self.body_discovered_index+1):
+                if npc == self.discoverer and i == self.body_discovered_index:
+                    npc.move_to_room(self.crime_scene)
+                elif (npc == self.murderer or npc == self.victim) and i == self.murder_committed_index:
+                    npc.move_to_room(self.crime_scene)
+                elif npc == self.victim and i > self.murder_committed_index:
+                    # Don't want the dead to be walking...
+                    npc.stay_in_room()
+                elif npc == self.obsessive:
+                    # Don't move the obsessive NPC to the room where the murder is being committed
+                    if i >= self.murder_committed_index:
+                        npc.move_to_room(random.choice([room for room in npc.obsession.get_room_at_time(i).adjacent_rooms if room != self.crime_scene]))
+                    else:
+                        npc.move_to_room(random.choice(npc.obsession.get_room_at_time(i).adjacent_rooms))
+                # NPCs are more likely to stay in one room than to move to another room
+                elif random.randint(0,9) < 7:
+                    npc.stay_in_room()
+                else:
+                    npc.move_to_room(random.choice([room for room in list(self.rooms.values()) if room != npc.current_room]))
+                # Same situation with the fake routines
+                if random.randint(0,9) < 7:
+                    npc.fake_stay_in_room()
+                else:
+                    npc.fake_move_to_room(random.choice(list(self.rooms.values())))
+
+        # Shuffle the NPC list to avoid a pattern with the special NPCs appearing at the start of the list
+        random.shuffle(self.npcs)

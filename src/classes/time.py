@@ -40,6 +40,8 @@ class Time:
             time = datetime.datetime.strptime(string, "%H:%M")
         except:
             return None
+        if time < self.start_time:
+            time += datetime.timedelta(days=1)
         return time
 
     def string_to_index(self,string):
@@ -48,4 +50,6 @@ class Time:
             time = datetime.datetime.strptime(string, "%H:%M")
         except:
             return None
+        if time < self.start_time:
+            time += datetime.timedelta(days=1)
         return self.time_to_index(time)
