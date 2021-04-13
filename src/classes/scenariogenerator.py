@@ -111,7 +111,11 @@ class ScenarioGenerator:
                 elif random.randint(0,9) < 7:
                     npc.stay_in_room()
                 else:
-                    npc.move_to_room(random.choice([room for room in list(self.rooms.values()) if room != npc.current_room]))
+                    if i >= self.murder_committed_index:
+                        # No one goes to the crime scene before the scripted time when the body is discovered
+                        npc.move_to_room(random.choice([room for room in list(self.rooms.values()) if room != npc.current_room and room != self.crime_scene]))
+                    else:
+                        npc.move_to_room(random.choice([room for room in list(self.rooms.values()) if room != npc.current_room]))
                 # Same situation with the fake routines
                 if random.randint(0,9) < 7:
                     npc.fake_stay_in_room()

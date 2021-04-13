@@ -5,7 +5,7 @@ if __name__ == "__main__":
     seed = input("Enter seed (leave empty for random seed): ")
     difficulty = input("0 - Easy (default)\n1 - Medium\n2 - Hard\nEnter difficulty (leave empty for default): ")
     scen = ScenarioGenerator(seed, difficulty)
-    inter = Interrogation(scen.time)
+    inter = Interrogation(scen.time, scen)
     # Before GUI, this will do
     print("You are a detective called to a mansion to solve a murder committed during a party.")
     print(f"The party started at 18:00.\n\n{scen.victim} was found dead in the {scen.crime_scene} at {scen.time.index_to_string(scen.time.final_index)} by {scen.discoverer}.\n\nNo one has seen or heard anything.")
