@@ -9,14 +9,14 @@ class Time:
 
     def index_to_time(self,index):
         # Lists don't have negative indices!
-        if index < 0: index = 0
+        if index < 0:
+            index = 0
         delta = datetime.timedelta(minutes=index * 10)
         time = self.start_time + delta
         # Index cannot go over final index!
         if index < self.final_index:
             return self.start_time + delta
-        else:
-            return self.final_time
+        return self.final_time
 
     def time_to_index(self,time):
         delta = time - self.start_time
@@ -24,8 +24,7 @@ class Time:
         # Index can't go over final_index!
         if index > self.final_index:
             return self.final_index
-        else:
-            return index
+        return index
 
     def index_to_string(self,index):
         time = self.index_to_time(index)

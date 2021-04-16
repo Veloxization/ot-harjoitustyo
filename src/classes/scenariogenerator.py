@@ -6,10 +6,14 @@ from classes.time import Time
 class ScenarioGenerator:
     def __init__(self,seed=None,difficulty=0):
         # Strings are accepted as a difficulty input just in case the user misunderstands the instructions
-        if str(difficulty).lower() == "easy" or difficulty == "0": self.difficulty = 0
-        elif str(difficulty).lower() == "medium" or difficulty == "1": self.difficulty = 1
-        elif str(difficulty).lower() == "hard" or difficulty == "2": self.difficulty = 2
-        else: self.difficulty = 0
+        if str(difficulty).lower() == "easy" or difficulty == "0":
+            self.difficulty = 0
+        elif str(difficulty).lower() == "medium" or difficulty == "1":
+            self.difficulty = 1
+        elif str(difficulty).lower() == "hard" or difficulty == "2":
+            self.difficulty = 2
+        else:
+            self.difficulty = 0
 
         # If seed is not specified, set it as a random 32-bit signed integer
         if not seed:
@@ -49,8 +53,7 @@ class ScenarioGenerator:
                          "library": Room("Library", self.time),
                          "study": Room("Study", self.time),
                          "observatory": Room("Observatory", self.time),
-                         "balcony": Room("Balcony", self.time),
-                         "upstairs_hall": Room("Upstairs Hall", self.time)
+                         "balcony": Room("Balcony", self.time)
         }
         # Set adjacent rooms for floor G
         for key in rooms_G:
@@ -66,6 +69,7 @@ class ScenarioGenerator:
         # Select the room where the murder will be committed
         self.crime_scene = random.choice([room for room in list(self.rooms.values()) if room != rooms_G["main_hall"] and room != rooms_LG["basement_hall"] and room != rooms_1F["upstairs_hall"]])
 
+        # Get random names from the names.txt file
         with open("src/data/names.txt") as f:
             names = f.read().splitlines()
         self.npcs = []
@@ -89,14 +93,14 @@ class ScenarioGenerator:
         self.obsessive = self.npcs[-1]
 
         # Select the NPC (other than the victim or liar) who discovers the body. Can be the murderer themselves!
-        self.discoverer = random.choice([npc for npc in self.npcs if npc != self.victim and npc != self.liar])
+        self.discoverer = random.choice([npc for npc in self.npcs if npc not in (self.victim, self.liar)])
 
         # Generate a routine for each NPC
         for npc in self.npcs:
             for i in range(1, self.body_discovered_index+1):
                 if npc == self.discoverer and i == self.body_discovered_index:
                     npc.move_to_room(self.crime_scene)
-                elif (npc == self.murderer or npc == self.victim) and i == self.murder_committed_index:
+                elif npc in (self.murderer, self.victim) and i == self.murder_committed_index:
                     npc.move_to_room(self.crime_scene)
                 elif npc == self.victim and i > self.murder_committed_index:
                     # Don't want the dead to be walking...
@@ -113,7 +117,7 @@ class ScenarioGenerator:
                 else:
                     if i >= self.murder_committed_index:
                         # No one goes to the crime scene before the scripted time when the body is discovered
-                        npc.move_to_room(random.choice([room for room in list(self.rooms.values()) if room != npc.current_room and room != self.crime_scene]))
+                        npc.move_to_room(random.choice([room for room in list(self.rooms.values()) if room not in (npc.current_room, self.crime_scene)]))
                     else:
                         npc.move_to_room(random.choice([room for room in list(self.rooms.values()) if room != npc.current_room]))
                 # Same situation with the fake routines
@@ -122,5 +126,5 @@ class ScenarioGenerator:
                 else:
                     npc.fake_move_to_room(random.choice(list(self.rooms.values())))
 
-        # Shuffle the NPC list to avoid a pattern with the special NPCs appearing at the start of the list
+        # Shuffle the NPC list to avoid a pattern with most special NPCs appearing at the start of the list
         random.shuffle(self.npcs)

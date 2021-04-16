@@ -12,12 +12,14 @@ if __name__ == "__main__":
     print("It's up to you to solve this mystery.")
     while(1):
         action = input("1 - List NPCs\n2 - Interrogate\n3 - Accuse\n4 - Exit\n\nChoose your action: ")
+        # List NPCs
         if action == "1":
             for npc in scen.npcs:
                 if npc == scen.victim:
                     print(npc, "- The Victim")
                 else:
                     print(npc)
+        # Interrogate
         elif action == "2":
             num = 1
             for npc in scen.npcs:
@@ -32,7 +34,7 @@ if __name__ == "__main__":
             except:
                 print("Going back...")
                 continue
-            print("1 Where were you at __:__?")
+            print("1 Where were you at __:__?\n2 Who were you with at __:__?")
             action = input("Question (type a non-number to cancel): ")
             if action == "1":
                 action = input("Type a 0-padded 24-hour time (e.g. 01:20): ")
@@ -41,6 +43,14 @@ if __name__ == "__main__":
                     print("Invalid time format. Use a 0-padded 24-hour format.")
                 else:
                     inter.where_were_you_at(npc, index)
+            elif action == "2":
+                action = input("Type a 0-padded 24-hour time (e.g. 01:20): ")
+                index = scen.time.string_to_index(action)
+                if index == None:
+                    print("Invalid time format. Use a 0-padded 24-hour format.")
+                else:
+                    inter.who_were_you_with_at(npc, index)
+        # Accuse
         elif action == "3":
             num = 1
             for npc in scen.npcs:
@@ -50,6 +60,7 @@ if __name__ == "__main__":
                     print(num, npc)
                 num += 1
             action = input("Accuse (type a non-number to go back): ")
+        # Exit
         elif action == "4":
             action = input("Are you sure you want to exit? (y/n) ")
             if action.lower() == "y" or action.lower() == "yes":

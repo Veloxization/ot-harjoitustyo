@@ -25,6 +25,7 @@ class Room:
         if npc and npc not in self.fake_npcs[index]:
             self.fake_npcs[index].append(npc)
 
+    # Adds a room as an adjacent room, i.e. a room that is connected by a door
     def add_adjacent_room(self,room):
         if room and room != self:
             if room not in self.adjacent_rooms:
