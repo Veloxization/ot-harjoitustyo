@@ -18,9 +18,11 @@ Only one will be generated for each scenario. A liar NPC will never tell you the
 Only one will be generated for each scenario. An obsessive NPC will pick a random NPC to follow throughout the night. They will always be in an adjacent room and hence will always be able to tell where their obsession is, and with whom. They may have some really useful information if you get lucky...
 ### Difficulties
 There are three difficulties: Easy, Normal and Hard.
+
 A higher difficulty level means you will have more NPCs to interrogate and more floors unlocked, giving you a lot of information to shift through.
 ### Rooms
 Rooms are accessed by NPCs throughout the night. You can ask an NPC about which room they were with the *"Where were you at \_\_:\_\_?"* question and they will answer based on their personality.
+
 Each room has **adjacent rooms**, i.e. other rooms that can be directly accessed from that room. You can ask an NPC about where other NPCs were with the *"Where were they at \_\_:\_\_?"* question. If that other NPC was in the same or an adjacent room to the asked NPC, they will be able to tell (unless they're lying, of course).
 ## Test
 To run currently implemented tests, use `poetry run invoke test`

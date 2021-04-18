@@ -17,11 +17,13 @@ class Interrogation:
         # The liar will always lie and uses the separate fake room list
         if npc.personality == "LIAR":
             print(f"{npc}: I was in the {npc.get_fake_room_at_time(index)}.")
+            return npc.get_fake_room_at_time(index)
         # The murderer will only lie when it concerns the time of the murder
         elif npc.personality == "MURDERER" and index == self.scenario.murder_committed_index:
             print(f"{npc}: I was in the {npc.fake_room_at_murder_time}.")
-        else:
-            print(f"{npc}: I was in the {npc.get_room_at_time(index)}.")
+            return npc.fake_room_at_murder_time
+        print(f"{npc}: I was in the {npc.get_room_at_time(index)}.")
+        return npc.get_room_at_time(index)
 
     def who_were_you_with_at(self, npc, index):
         if npc == self.scenario.victim:
@@ -57,8 +59,8 @@ class Interrogation:
         print(f"You: Where was {answer_npc} at {self.time.index_to_string(index)}?")
         if asked_npc.personality == "LIAR":
             room = answer_npc.get_fake_room_at_time(index)
-            if room in (asked_npc.get_fake_room_at_time(index).adjacent_rooms,
-                        asked_npc.get_fake_room_at_time(index)):
+            if (room in asked_npc.get_fake_room_at_time(index).adjacent_rooms
+            or room == asked_npc.get_fake_room_at_time(index)):
                 print(f"{asked_npc}: I think {answer_npc} was in the {room}.")
             else:
                 print(f"{asked_npc}: I don't know.")
@@ -69,8 +71,8 @@ class Interrogation:
             print(f"{asked_npc}: I don't know.")
         else:
             room = answer_npc.get_room_at_time(index)
-            if room in (asked_npc.get_room_at_time(index).adjacent_rooms,
-                        asked_npc.get_room_at_time(index)):
+            if (room in asked_npc.get_room_at_time(index).adjacent_rooms
+            or room == asked_npc.get_room_at_time(index)):
                 print(f"{asked_npc}: I think {answer_npc} was in the {room}.")
             else:
                 print(f"{asked_npc}: I don't know.")

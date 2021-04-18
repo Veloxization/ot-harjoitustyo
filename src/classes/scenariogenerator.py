@@ -113,7 +113,11 @@ class ScenarioGenerator:
                         npc.move_to_room(random.choice(npc.obsession.get_room_at_time(i).adjacent_rooms))
                 # NPCs are more likely to stay in one room than to move to another room
                 elif random.randint(0,9) < 7:
-                    npc.stay_in_room()
+                    if npc.current_room != self.crime_scene and i >= self.murder_committed_index:
+                        npc.stay_in_room()
+                    # Even if the "dice roll" tells the NPC to stay at the crime scene... don't.
+                    else:
+                        npc.move_to_room(random.choice([room for room in list(self.rooms.values()) if room != npc.current_room]))
                 else:
                     if i >= self.murder_committed_index:
                         # No one goes to the crime scene before the scripted time when the body is discovered
@@ -126,5 +130,22 @@ class ScenarioGenerator:
                 else:
                     npc.fake_move_to_room(random.choice(list(self.rooms.values())))
 
+        # Set the fake room the murderer will tell about at murder time.
+        # The room has to be occupied by someone else (other than the liar) so they can be caught in the lie
+        self.whistle_blower = random.choice([npc for npc in self.npcs if npc not in (self.victim, self.murderer, self.liar)])
+        self.murderer.set_fake_room_at_murder_time(self.whistle_blower.get_room_at_time(self.murder_committed_index))
+
         # Shuffle the NPC list to avoid a pattern with most special NPCs appearing at the start of the list
         random.shuffle(self.npcs)
+
+    def accuse(self, npc, index):
+        solved = False
+        print(f"You: I think the murderer is {npc} and they committed their crime at {self.time.index_to_string(index)}!")
+        if npc == self.murderer and index == self.murder_committed_index:
+            print(f"{npc}: Not possible. I am sure I was in the {npc.fake_room_at_murder_time} at that time. There were no bodies.")
+            print(f"{self.whistle_blower}: You're lying! I was in the {self.whistle_blower.get_room_at_time(self.murder_committed_index)} at {self.time.index_to_string(index)}! You weren't there!")
+            print(f"YOU ARE CORRECT! {npc} is the murderer and the crime was committed at {self.time.index_to_string(index)}!")
+            solved = True
+        else:
+            print(f"{npc}: Not possible. I am sure I was in the {npc.get_room_at_time(index)} at that time. There were no bodies.")
+        return solved

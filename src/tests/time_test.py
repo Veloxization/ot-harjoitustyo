@@ -54,3 +54,11 @@ class TestTime(unittest.TestCase):
     def test_string_to_index_returns_none_with_incompatible_string(self):
         result_index = self.time.string_to_index("TEST")
         self.assertEqual(result_index, None)
+
+    def test_negative_index_in_index_to_time_returns_start_time(self):
+        result_time = self.time.index_to_time(-1)
+        self.assertEqual(result_time, datetime.datetime(1900,1,1,hour=18))
+
+    def test_time_before_start_time_converted_to_next_day_in_string_to_time(self):
+        result_time = self.time.string_to_time("17:59")
+        self.assertEqual(result_time, datetime.datetime(1900,1,2,hour=17,minute=59))
