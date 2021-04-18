@@ -11,4 +11,5 @@ You are required to have Poetry installed to run this project. More instructions
 ## Links
 * [Usage Instructions](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/usage.md)
 * [Software Requirements Specification](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/requirements.md)
+* [Architecture](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/architecture.md)
 * [Work hour sheet](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/workhours.md)
