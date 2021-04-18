@@ -13,7 +13,7 @@ Only one will be generated for each scenario. A murderer NPC will act a lot like
 #### Victim
 Only one will be generated for each scenario. A victim NPC will act a lot like a normal NPC but will eventually end up in the same room with only the murderer NPC and be left there until discovered by another NPC. Note that the murderer themselves can also report the body!
 #### Liar
-Only one will be generated for each scenario. A liar NPC will never tell you the truth about where they were and who they were with. If you think you've found a discrepancy in someone's story, make sure you are not talking with a liar!
+Only one will be generated for each scenario. A liar NPC will never tell you the truth about where they were and who they were with (with the exception of when they are accused of a crime they didn't commit). If you think you've found a discrepancy in someone's story, make sure you are not talking with a liar!
 #### Obsessive
 Only one will be generated for each scenario. An obsessive NPC will pick a random NPC to follow throughout the night. They will always be in an adjacent room and hence will always be able to tell where their obsession is, and with whom. They may have some really useful information if you get lucky...
 ### Difficulties
