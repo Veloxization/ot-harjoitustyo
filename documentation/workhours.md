@@ -8,4 +8,5 @@
 | 12.4.| 3:30 | Worked the project to a point where basic functionality with a single question is possible. |
 | 13.4.| 0:30 | Added bases for more questions to be implemented in the main file. |
 | 16.4.| 2:00 | Implemented another question to the main file, tidied messy code, general improvements. |
-| Total| 13:30| |
+| 18.4.| 2:30 | Cleaned up main, implemented a question, added a win condition, created tests, class diagram |
+| Total| 16:00| |
