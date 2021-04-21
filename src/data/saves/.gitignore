@@ -1,0 +1,4 @@
+# The save folder is required for full funtionality
+# The .gitignore file is only here to make sure the folder gets added
+*
+!.gitignore

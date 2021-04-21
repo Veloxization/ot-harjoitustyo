@@ -24,6 +24,8 @@ A higher difficulty level means you will have more NPCs to interrogate and more 
 Rooms are accessed by NPCs throughout the night. You can ask an NPC about which room they were with the *"Where were you at \_\_:\_\_?"* question and they will answer based on their personality.
 
 Each room has **adjacent rooms**, i.e. other rooms that can be directly accessed from that room. You can ask an NPC about where other NPCs were with the *"Where were they at \_\_:\_\_?"* question. If that other NPC was in the same or an adjacent room to the asked NPC, they will be able to tell (unless they're lying, of course).
+### Saving
+You can save your progress at any time during gameplay by selecting the option. Saves are put in the `/src/data/saves` folder in base64 encoded JSON format. Saved files can be loaded to continue a previous investigation.
 ## Test
 To run currently implemented tests, use `poetry run invoke test`
 ## Coverage Report
