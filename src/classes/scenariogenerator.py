@@ -63,11 +63,30 @@ class ScenarioGenerator:
         rooms_G["master_bedroom"].add_adjacent_room(rooms_G["patio"])
         rooms_G["living_room"].add_adjacent_room(rooms_G["office"])
 
-        # For now, easy will be the only difficulty to test the function of the game
-        self.rooms = rooms_G
+        # Set adjacent rooms for floor LG
+        for key in rooms_LG:
+            rooms_LG["basement_hall"].add_adjacent_room(rooms_LG[key])
+        rooms_LG["laboratory"].add_adjacent_room(rooms_LG["archives"])
+        rooms_LG["wine_cellar"].add_adjacent_room(rooms_LG["storage"])
+
+        # Set adjacent rooms for floor 1F
+        for key in rooms_1F:
+            rooms_1F["upstairs_hall"].add_adjacent_room(rooms_1F[key])
+        rooms_1F["guest_room"].add_adjacent_room(rooms_1F["guest_bathroom"])
+        rooms_1F["guest_room"].add_adjacent_room(rooms_1F["balcony"])
+        rooms_1F["study"].add_adjacent_room(rooms_1F["library"])
+        rooms_1F["study"].add_adjacent_room(rooms_1F["observatory"])
+
+        # Difficulty determines which floors are available
+        if self.difficulty == 2:
+            self.rooms = {**rooms_G, **rooms_LG, **rooms_1F}
+        elif self.difficulty == 1:
+            self.rooms = {**rooms_G, **rooms_LG}
+        else:
+            self.rooms = rooms_G
 
         # Select the room where the murder will be committed
-        self.crime_scene = random.choice([room for room in list(self.rooms.values()) if room != rooms_G["main_hall"] and room != rooms_LG["basement_hall"] and room != rooms_1F["upstairs_hall"]])
+        self.crime_scene = random.choice([room for room in list(self.rooms.values()) if room not in (rooms_G["main_hall"], rooms_LG["basement_hall"], rooms_1F["upstairs_hall"])])
 
         # Get random names from the names.txt file
         with open("src/data/names.txt") as f:

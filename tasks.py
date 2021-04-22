@@ -13,3 +13,12 @@ def coverage_report(ctx):
     ctx.run("coverage run --branch -m pytest src")
     ctx.run("coverage report -m")
     ctx.run("coverage html")
+
+@task
+def lint(ctx):
+    ctx.run("pylint src")
+
+# A temporary task for GUI testing
+@task
+def test_gui(ctx):
+    ctx.run("python3 src/main.py")

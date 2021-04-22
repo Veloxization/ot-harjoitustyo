@@ -2,6 +2,15 @@
 **Note: Currently the project works through terminal only. There will be a GUI in the future!**
 ## Manual
 **Note: Some features mentioned in the manual may not be implemented yet!**
+### How to Play
+#### Main Menu
+The _Main Menu_ gives you the following options: new game, load game, quit game
+##### New Game
+Selecting _New Game_ takes you to a new menu where you are given an option to enter a seed, and difficulty. _The seed_ is used for the generation logic of a new scenario. You can leave it empty for a random 32-bit signed integer to be used as the seed. You can read more about _the difficulty option_ in its own [section](#difficulties).
+##### Load Game
+Selecting _Load Game_ takes you to a new menu where you are given the option to continue a previously saved scenario. The dropdown menu will reveal any previously saved games, if any are available.
+##### Quit Game
+Selecting _Quit Game_ immediately closes the game.
 ### Goal
 Interrogate NPCs and find out who the murderer is, and when they committed their crime!
 ### NPCs
@@ -31,3 +40,5 @@ To run currently implemented tests, use `poetry run invoke test`
 ## Coverage Report
 To generate a coverage report, use `poetry run invoke coverage-report`
 A coverage report will be generated in terminal but a folder called *htmlcov* will also be created in the root directory. Within it, you will find *index.html*. Opening it in browser will show a more visually pleasing coverage report.
+## Pylint
+To run Pylint, use `poetry run invoke lint`

@@ -5,6 +5,7 @@ class Npc:
         self.current_room = start_room
         self.fake_current_room = start_room
         self.current_room.add_npc(0,self)
+        self.fake_current_room.fake_add_npc(0,self)
         self.routine = [start_room]
         # Used by the murderer
         self.fake_room_at_murder_time = None
@@ -22,7 +23,7 @@ class Npc:
 
     # Can be used to change the NPCs personality, if needed.
     # Giving no arguments defaults to "NORMAL" personality
-    def set_personality(self,personality):
+    def set_personality(self,personality=None):
         if not personality:
             self.personality = "NORMAL"
         else:

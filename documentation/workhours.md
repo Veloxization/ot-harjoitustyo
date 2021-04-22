@@ -10,4 +10,5 @@
 | 16.4.| 2:00 | Implemented another question to the main file, tidied messy code, general improvements. |
 | 18.4.| 2:30 | Cleaned up main, implemented a question, added a win condition, created tests, class diagram |
 | 21.4.| 2:30 | Implemented detective's notes and save files, research into JSON files and base64 encoding |
-| Total| 18:30| |
+| 22.4.| 3:00 | Implemented other difficulty levels, fixed an obvious telling factor about the Liar, research into Pygame, started implementing a GUI |
+| Total| 21:30| |

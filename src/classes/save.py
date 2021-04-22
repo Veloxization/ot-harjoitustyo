@@ -1,4 +1,6 @@
 import json, base64
+from os import walk
+
 from classes.scenariogenerator import ScenarioGenerator
 from classes.notes import Notes
 
@@ -24,7 +26,7 @@ class Save:
         file.close()
 
     def load_from_file(self,name):
-        # Open the given safe file (may fail, change this!)
+        # Open the given save file (may fail, change this!)
         file = open(f"src/data/saves/{name}", "r")
         # Convert file content to base64 data
         data = file.read().encode("ascii")
@@ -47,3 +49,11 @@ class Save:
             notes[npc.name] = note
         # Return the re-generated scenario and notes
         return scenario, notes
+
+    def list_saves(self):
+        files = []
+        for (dirpath, dirnames, filenames) in walk("src/data/saves"):
+            files.extend(filenames)
+            break
+        files.remove(".gitignore")
+        return files

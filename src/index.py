@@ -3,21 +3,17 @@ from classes.interrogation import Interrogation
 from classes.notes import Notes
 from classes.save import Save
 
-from os import walk
-
 if __name__ == "__main__":
     # Get available save files and give them as an option to the player
     f = ["NEW GAME"]
-    for (dirpath, dirnames, filenames) in walk("src/data/saves"):
-        f.extend(filenames)
-        break
+    save = Save()
+    f.extend(save.list_saves())
     options = {}
     num = 0
     for file in f:
-        if file != ".gitignore":
-            options[str(num)] = file
-            print(num, file)
-            num += 1
+        options[str(num)] = file
+        print(num, file)
+        num += 1
     action = input("Select new game or a save by typing a number: ")
     # Use a save the player specified, if an incompatible input was given,
     # default to NEW GAME
