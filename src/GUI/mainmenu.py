@@ -2,6 +2,8 @@ import pygame
 import pygame_menu
 
 from classes.save import Save
+from classes.scenariogenerator import ScenarioGenerator
+from GUI.intro import Intro
 
 class MainMenu:
     def __init__(self,surface,clock):
@@ -38,18 +40,27 @@ class MainMenu:
         self.menu.mainloop(self.surface)
 
     def open_new_game_menu(self):
+        self.menu.close()
         self.new_game_menu.mainloop(self.surface)
 
     def open_load_game_menu(self):
+        self.menu.close()
         self.load_game_menu.mainloop(self.surface)
 
     def start_game(self):
-        print("Starting the game")
+        self.menu.toggle()
+        self.new_game_menu.toggle()
+        self.surface.fill((0,0,0))
+        scenario = ScenarioGenerator(self.seed, self.difficulty)
+        intro = Intro(scenario, self.surface, self.clock)
+        intro.start()
 
     def load_game(self):
         print("Loading a game")
 
     def return_to_main_menu(self):
+        self.new_game_menu.close()
+        self.load_game_menu.close()
         self.menu.mainloop(self.surface)
 
     def set_difficulty(self,difficulty,index):

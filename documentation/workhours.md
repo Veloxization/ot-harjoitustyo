@@ -11,4 +11,5 @@
 | 18.4.| 2:30 | Cleaned up main, implemented a question, added a win condition, created tests, class diagram |
 | 21.4.| 2:30 | Implemented detective's notes and save files, research into JSON files and base64 encoding |
 | 22.4.| 3:00 | Implemented other difficulty levels, fixed an obvious telling factor about the Liar, research into Pygame, started implementing a GUI |
-| Total| 21:30| |
+| 23.4.| 1:30 | Attempting to implement a visual intro sequence for a new game. |
+| Total| 23:00| |
