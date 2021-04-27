@@ -39,7 +39,7 @@ if __name__ == "__main__":
     print(f"The party started at 18:00.\n\n{scen.victim} was found dead in the {scen.crime_scene} at {scen.time.index_to_string(scen.time.final_index)} by {scen.discoverer}.\n\nNo one has seen or heard anything.")
     print("It's up to you to solve this mystery.")
     while(1):
-        action = input("1 - List NPCs\n2 - Interrogate\n3 - Accuse\n4 - Save\n5 - Exit\n\nChoose your action: ")
+        action = input("1 - List NPCs\n2 - Interrogate\n3 - Notes\n4 - Accuse\n5 - Save\n6 - Exit\n\nChoose your action: ")
         # List NPCs
         if action == "1":
             for npc in scen.npcs:
@@ -105,10 +105,46 @@ if __name__ == "__main__":
                 if index == None:
                     print("Invalid time format. Use a 0-padded 24-hour format.")
                 else:
-                    response = inter.where_were_they_at(answer_npc, npc, index)
-                    notes[npc.name].add_npc_location_to_notes(index, npc.name, response)
-        # Accuse
+                    response = inter.where_were_they_at(npc, answer_npc, index)
+                    notes[npc.name].add_npc_location_to_notes(index, answer_npc, response)
+        # Notes
         elif action == "3":
+            npc_list = {}
+            num = 1
+            for npc in scen.npcs:
+                if npc != scen.victim:
+                    npc_list[str(num)] = npc
+                    print(num, npc)
+                    num += 1
+            action = input("Select NPC: ")
+            if action in npc_list:
+                npc = npc_list[action]
+                print("1 Personal routine\n2 Company\n3 Routine of another person")
+                action = input("Select notes: ")
+                if action == "1":
+                    personal_note = notes[npc.name].get_personal_routine()
+                    for note in personal_note:
+                        print(note)
+                elif action == "2":
+                    company_note = notes[npc.name].get_company_routine()
+                    for note in company_note:
+                        print(note)
+                elif action == "3":
+                    num = 1
+                    npc_list = {}
+                    for other_npc in scen.npcs:
+                        if other_npc != npc:
+                            npc_list[str(num)] = other_npc
+                            print(num, other_npc)
+                            num += 1
+                    action = input("Select NPC: ")
+                    if action in npc_list:
+                        other_npc = npc_list[action]
+                        other_note = notes[npc.name].get_routine_of_npc(other_npc)
+                        for note in other_note:
+                            print(note)
+        # Accuse
+        elif action == "4":
             num = 1
             accuse_npcs = {}
             for npc in scen.npcs:
@@ -130,12 +166,13 @@ if __name__ == "__main__":
                     print("Try again!")
                 else:
                     break
-        elif action == "4":
+        # Save
+        elif action == "5":
             action = input("Type a name for your save: ")
             save = Save()
             save.write_to_file(action,scen.seed,scen.difficulty,notes)
         # Exit
-        elif action == "5":
+        elif action == "6":
             action = input("Are you sure you want to exit? (y/n) ")
             if action.lower() == "y" or action.lower() == "yes":
                 print("Exiting...")

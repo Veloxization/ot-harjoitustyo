@@ -12,4 +12,5 @@
 | 21.4.| 2:30 | Implemented detective's notes and save files, research into JSON files and base64 encoding |
 | 22.4.| 3:00 | Implemented other difficulty levels, fixed an obvious telling factor about the Liar, research into Pygame, started implementing a GUI |
 | 23.4.| 1:30 | Attempting to implement a visual intro sequence for a new game. |
-| Total| 23:00| |
+| 27.4.| 1:30 | Implemented notes in the terminal version, created a sequence diagram of ScenarioGenerator |
+| **Total**| **24:30**| |

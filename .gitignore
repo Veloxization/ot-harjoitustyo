@@ -7,3 +7,4 @@ laskarit/viikko2/unicafe/htmlcov/
 __pycache__
 htmlcov
 .coverage
+src/data/saves/
