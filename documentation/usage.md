@@ -42,3 +42,5 @@ To generate a coverage report, use `poetry run invoke coverage-report`
 A coverage report will be generated in terminal but a folder called *htmlcov* will also be created in the root directory. Within it, you will find *index.html*. Opening it in browser will show a more visually pleasing coverage report.
 ## Pylint
 To run Pylint, use `poetry run invoke lint`
+## Test GUI
+To test the work-in-progress GUI, use `poetry run invoke test-gui`

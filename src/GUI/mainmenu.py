@@ -27,12 +27,12 @@ class MainMenu:
         self.new_game_menu.add.button("Back", self.return_to_main_menu)
 
         self.load_game_menu = pygame_menu.Menu("Load Game", 400, 300)
-        save_list = []
-        index = 0
+        save_list = [("New Game",1)]
+        index = 1
         for save in self.save.list_saves():
             save_list.append((save, index))
             index += 1
-        self.load_game_menu.add.dropselect("Save: ", save_list, placeholder="Select a save", onchange=self.set_save)
+        self.load_game_menu.add.dropselect("Save: ", save_list, placeholder="Select a save", placeholder_add_to_selection_box=True, onchange=self.set_save)
         self.load_game_menu.add.button("Load", self.load_game)
         self.load_game_menu.add.button("Back", self.return_to_main_menu)
 

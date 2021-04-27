@@ -5,6 +5,10 @@ def start(ctx):
     ctx.run("python3 src/index.py")
 
 @task
+def build(ctx):
+    ctx.run("mkdir src/data/saves")
+
+@task
 def test(ctx):
     ctx.run("pytest src")
 

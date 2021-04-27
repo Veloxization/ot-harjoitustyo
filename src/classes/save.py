@@ -55,5 +55,4 @@ class Save:
         for (dirpath, dirnames, filenames) in walk("src/data/saves"):
             files.extend(filenames)
             break
-        files.remove(".gitignore")
         return files
