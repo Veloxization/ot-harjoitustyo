@@ -6,7 +6,7 @@ def start(ctx):
 
 @task
 def build(ctx):
-    ctx.run("mkdir src/data/saves")
+    ctx.run("mkdir src/data/saves/")
 
 @task
 def test(ctx):
