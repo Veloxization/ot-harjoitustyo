@@ -5,9 +5,9 @@ class RoomGraphic(pygame.sprite.Sprite):
         super().__init__()
         self.surface = surface
         self.rect = pygame.Rect(x, y, width, height)
-        # Yellow is used as a highlight. Its width is initialised as -1 so it would be invisible at start
         self.image = pygame.Surface((width, height))
         self.yellow = pygame.Surface((width, height))
+        # Yellow is used as a highlight. Its alpha is initialised as 0
         self.yellow.set_alpha(0)
         self.graphic = pygame.draw.rect(surface, (255,255,255), self.rect, 4)
         self.highlighted = False
@@ -23,9 +23,9 @@ class RoomGraphic(pygame.sprite.Sprite):
     def highlight(self):
         self.highlighted = not self.highlighted
         if self.highlighted:
-            self.yellow.width = 0
+            self.yellow.set_alpha(100)
         else:
-            self.yellow.width = -1
+            self.yellow.set_alpha(0)
 
 class Level:
     def __init__(self, surface):
