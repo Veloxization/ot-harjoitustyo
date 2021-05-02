@@ -14,4 +14,5 @@
 | 23.4.| 1:30 | Attempting to implement a visual intro sequence for a new game. |
 | 27.4.| 1:30 | Implemented notes in the terminal version, created a sequence diagram of ScenarioGenerator |
 | 30.4.| 2:30 | Starting to implement the map. |
-| **Total**| **27:00**| |
+| 2.5. | 3:00 | Implemented the map, implemented the intro sequence, added more tests |
+| **Total**| **30:00**| |

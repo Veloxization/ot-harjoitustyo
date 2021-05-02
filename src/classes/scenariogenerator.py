@@ -6,11 +6,11 @@ from classes.time import Time
 class ScenarioGenerator:
     def __init__(self,seed=None,difficulty=0):
         # Strings are accepted as a difficulty input just in case the user misunderstands the instructions
-        if str(difficulty).lower() == "easy" or difficulty == "0":
+        if str(difficulty).lower() == "easy" or difficulty in ("0", 0):
             self.difficulty = 0
-        elif str(difficulty).lower() == "medium" or difficulty == "1":
+        elif str(difficulty).lower() == "medium" or difficulty in ("1", 1):
             self.difficulty = 1
-        elif str(difficulty).lower() == "hard" or difficulty == "2":
+        elif str(difficulty).lower() == "hard" or difficulty in ("2", 2):
             self.difficulty = 2
         else:
             self.difficulty = 0

@@ -3,7 +3,9 @@ import pygame_menu
 
 from classes.save import Save
 from classes.scenariogenerator import ScenarioGenerator
+from classes.notes import Notes
 from GUI.intro import Intro
+from GUI.gamescene import GameScene
 
 class MainMenu:
     def __init__(self,surface,clock):
@@ -51,12 +53,17 @@ class MainMenu:
         self.menu.toggle()
         self.new_game_menu.toggle()
         self.surface.fill((0,0,0))
+        print("Selected difficulty:", self.difficulty)
         scenario = ScenarioGenerator(self.seed, self.difficulty)
-        intro = Intro(scenario, self.surface, self.clock)
+        notes = {}
+        for npc in scenario.npcs:
+            notes[npc.name] = Notes(npc,scenario)
+        intro = Intro(scenario, notes, self.surface, self.clock)
         intro.start()
 
     def load_game(self):
-        print("Loading a game")
+        scenario, notes = self.save.load_from_file(option)
+        scene = GameScene(self.surface,self.clock,scenario,notes)
 
     def return_to_main_menu(self):
         self.new_game_menu.close()

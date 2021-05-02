@@ -1,17 +1,23 @@
 import pygame
+from GUI.gamescene import GameScene
+
 # Intro text when a new game is started
 class Intro:
-    def __init__(self, scen, surface, clock):
+    def __init__(self, scen, notes, surface, clock):
         self.scen = scen
+        self.notes = notes
         self.surface = surface
         self.clock = clock
-        self.text = f"""You are a detective called to a mansion to solve a murder committed during a party.
-        The party started at 18:00.
+        self.text = f"""You are a detective called to a mansion
+to solve a murder committed during a party.
 
-        {scen.victim} was found dead in the {scen.crime_scene} at {scen.time.index_to_string(scen.time.final_index)} by {scen.discoverer}.
+The party started at 18:00.
 
-        No one has seen or heard anything.
-        It's up to you to solve this mystery."""
+{scen.victim} was found dead in the {scen.crime_scene} at {scen.time.index_to_string(scen.time.final_index)}
+by {scen.discoverer}.
+
+No one has seen or heard anything.
+It's up to you to solve this mystery."""
         print("Do stuff here")
 
     def start(self):
@@ -25,7 +31,12 @@ class Intro:
             for e in pygame.event.get():
                 if e.type == pygame.QUIT:
                     running = False
-            all_sprites.update()
+                if e.type == pygame.KEYDOWN and text.done == True:
+                    running = False
+                    self.surface.fill((0,0,0))
+                    scene = GameScene(self.surface, self.clock, self.scen, self.notes)
+                    scene.start()
+            result = all_sprites.update()
             all_sprites.draw(self.surface)
             pygame.display.update()
             self.clock.tick(60)
@@ -42,23 +53,37 @@ class Text(pygame.sprite.Sprite):
         self.coord_x = 20
         self.coord_y = 20
         self.cooldown = 0
-        self.cooldowns = {' ': 5, '\n': 30}
+        self.cooldowns = {' ': 1, '\n': 30}
+        self.done = False
 
     def write(self, text):
         self.text = list(text)
 
     def update(self):
-        if not self.cooldown:
-            letter = self.text.pop(0)
-            if letter == '\n':
-                self.coord_x = 20-self.text_width
-                self.coord_y += self.text_height
+        if self.text:
+            if not self.cooldown:
+                letter = self.text.pop(0)
+                if letter == '\n':
+                    self.coord_x = 20
+                    self.coord_y += self.text_height
+                else:
+                    self.coord_x += self.text_width
+                    self.board.add(letter, (self.coord_x, self.coord_y))
+                self.cooldown = self.cooldowns.get(letter)
+                if self.cooldown == 0:
+                    self.cooldown = 10
             else:
-                self.coord_x += self.text_width
-                self.board.add(letter, (self.coord_x, self.coord_y))
-            self.cooldown = self.cooldowns.get(letter)
-        else:
-            self.cooldown -= 1
+                self.cooldown -= 1
+        elif not self.done:
+            font = pygame.font.SysFont("arial", 16)
+            sizing = font.size("Press any key")
+            width = self.board.surface.get_width()
+            height = self.board.surface.get_height()
+            x_coord = (width - sizing[0]) // 2
+            y_coord = (width - sizing[1]) // 2
+            s = font.render("Press any key", 1, (255,255,255))
+            self.board.image.blit(s, (x_coord, y_coord))
+            self.done = True
 
 class Board(pygame.sprite.Sprite):
     def __init__(self, surface):
@@ -70,4 +95,4 @@ class Board(pygame.sprite.Sprite):
 
     def add(self, letter, pos):
         s = self.font.render(letter, 1, (255, 255, 255))
-        self.surface.blit(s, pos)
+        self.image.blit(s, pos)

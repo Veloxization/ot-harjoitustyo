@@ -2,21 +2,21 @@
 ## Purpose
 A simple detective game where at the start of each new game, a new murder mystery scenario is procedurally generated and the player has to deduce who the murderer is by interrogating NPC characters.
 ## UI Plan
-The game will have two main UIs: The main menu and the game UI itself (detailed below). The game UI will also have a few submenus.
+The game will have two main UIs: The main menu **(DONE!)** and the game UI itself (detailed below). The game UI will also have a few submenus.
 <img src="https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/images/gameUI.png">
 ## Basic functionality
 ### Main Menu
 * New Game
-  * Creates a new scenario **(DONE! No GUI)**
+  * Creates a new scenario **(DONE!)**
 * Load Game
   * The player can continue a previously started unfinished scenario **(DONE! No GUI)**
 * High Scores (possibly)
   * Details the player's performance in previously completed games
 * Quit Game
-  * Exits the game **(DONE! No GUI)**
+  * Exits the game **(DONE!)**
 ### Game Menu
 * Map
-  * Details the map to give the player a reference to the events
+  * Details the map to give the player a reference to the events **(DONE!)**
 * Floor
   * The currently selected floor
   * Can be used to cycle between floors
