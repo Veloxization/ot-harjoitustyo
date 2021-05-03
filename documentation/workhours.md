@@ -15,4 +15,5 @@
 | 27.4.| 1:30 | Implemented notes in the terminal version, created a sequence diagram of ScenarioGenerator |
 | 30.4.| 2:30 | Starting to implement the map. |
 | 2.5. | 3:00 | Implemented the map, implemented the intro sequence, added more tests |
-| **Total**| **30:00**| |
+| 3.5. | 2:00 | Added exit game and save game options to the game scene, a scenario can now be loaded from Load Game |
+| **Total**| **32:00**| |

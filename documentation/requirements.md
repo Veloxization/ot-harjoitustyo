@@ -9,7 +9,7 @@ The game will have two main UIs: The main menu **(DONE!)** and the game UI itsel
 * New Game
   * Creates a new scenario **(DONE!)**
 * Load Game
-  * The player can continue a previously started unfinished scenario **(DONE! No GUI)**
+  * The player can continue a previously started unfinished scenario **(DONE!)**
 * High Scores (possibly)
   * Details the player's performance in previously completed games
 * Quit Game
@@ -33,6 +33,6 @@ The game will have two main UIs: The main menu **(DONE!)** and the game UI itsel
   * Allows the player to suggest their main suspect and time of murder **(DONE! No GUI)**
   * If the player makes the correct accusation, points will possibly be awarded based on the amount of questions asked so far etc.
 * Save Game
-  * Saves the game in its current state **(DONE! No GUI)**
+  * Saves the game in its current state **(DONE!)**
 * Exit Game
-  * Moves the player back to the main menu
+  * Moves the player back to the main menu **(DONE!)**

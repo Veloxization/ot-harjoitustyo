@@ -1,4 +1,7 @@
 import pygame
+import pygame_menu
+
+from classes.save import Save
 
 class RoomGraphic(pygame.sprite.Sprite):
     def __init__(self, surface, scenario, name, x=0, y=0, width=5, height=5):
@@ -13,7 +16,7 @@ class RoomGraphic(pygame.sprite.Sprite):
         self.image = pygame.Surface((width, height))
         # Yellow is used as a highlight
         self.yellow = pygame.Surface((width, height))
-        self.graphic = pygame.draw.rect(surface, (255,255,255), self.rect, 4)
+        pygame.draw.rect(surface, (255,255,255), self.rect, 4)
         self.highlighted = False
         self.name = name
         self.namegraphic = pygame.font.SysFont("arial", 14)
@@ -34,6 +37,9 @@ class RoomGraphic(pygame.sprite.Sprite):
             self.render_room_name(self.width, self.height)
             if self.crime_scene:
                 self.render_body_text()
+
+    def rerender(self):
+        pygame.draw.rect(self.surface, (255,255,255), self.rect, 4)
 
     def render_body_text(self):
         text = pygame.font.SysFont("arial", 12)
@@ -67,14 +73,19 @@ class RoomGraphic(pygame.sprite.Sprite):
             self.image.blit(s, (text_x, text_y))
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, text, pos):
+    def __init__(self, text, pos, function):
+        super().__init__()
         self.text = text
-        font = pygame.font.SysFont("arial", 14)
+        self.function = function
+        font = pygame.font.SysFont("arial", 16)
         width, height = font.size(text)
         self.image = pygame.Surface(font.size(text))
-        self.rect = pygame.Rect(post[0], post[1], width, height)
+        self.rect = pygame.Rect(pos[0], pos[1], width, height)
         s = font.render(text, 1, (255,255,255))
-        self.image.blit(s, pos)
+        self.image.blit(s, (0,0))
+
+    def activate(self):
+        return self.function
 
 class Level:
     def __init__(self, surface, scenario):
@@ -171,7 +182,7 @@ class Level:
         # Add guest bedroom
         x += cell_x * 3 + 2
         height = cell_y * 2
-        self.add_room("Guest Bedroom", floor, x, y, width, height)
+        self.add_room("Guest Room", floor, x, y, width, height)
         # Add library
         x, y = corner_x, corner_y + cell_y * 2 + 2
         self.add_room("Library", floor, x, y, width, height)
@@ -182,14 +193,55 @@ class Level:
         self.add_room("Guest Bathroom", floor, x, y, width, height)
 
         # INITIALISE BUTTONS
+        font = pygame.font.SysFont("arial", 16)
+        # Add the exit game button
+        text = "Exit Game"
+        width, height = font.size(text)
+        x, y = surface.get_width() - width, surface.get_height() - height
+        self.add_button(text, x, y, "EXIT")
+        # Add the save game button
+        text = "Save Game"
+        width, height = font.size(text)
+        x, y = 0, surface.get_height() - height
+        self.add_button(text, x, y, "SAVE")
 
     def add_room(self, name, floor, x, y, width, height):
         room = RoomGraphic(self.surface, self.scenario, name, x, y, width, height)
         floor.add(room)
         self.all_room_sprites.add(room)
 
-    def add_button(self, text, x, y):
-        button = Button(text, (x, y))
+    def add_button(self, text, x, y, function):
+        button = Button(text, (x, y), function)
+        self.buttons.add(button)
+
+class SaveMenu:
+    def __init__(self, surface, scenario, notes):
+        self.surface = surface
+        self.scenario = scenario
+        self.notes = notes
+        self.save_name = ""
+        self.menu = pygame_menu.Menu("Save", 400, 300)
+        self.menu.add.text_input("Name: ", maxchar=10, onchange=self.set_save_name)
+        self.menu.add.button("Save", self.save_game)
+        self.menu.add.button("Back", self.return_to_game)
+
+    def launch(self):
+        self.menu.enable()
+        self.menu.mainloop(self.surface)
+
+    def save_game(self):
+        if self.save_name:
+            save = Save()
+            save.write_to_file(self.save_name, self.scenario.seed, self.scenario.difficulty, self.notes)
+            self.surface.fill((0,0,0))
+            self.menu.disable()
+
+    def return_to_game(self):
+        self.surface.fill((0,0,0))
+        self.menu.disable()
+
+    def set_save_name(self,name,**kwargs):
+        self.save_name = name
 
 class GameScene:
     def __init__(self,surface,clock,scenario,notes):
@@ -210,9 +262,20 @@ class GameScene:
                     for roomgraph in self.level.all_room_sprites:
                         if roomgraph.rect.collidepoint(x, y):
                             roomgraph.toggle_highlight()
+                    for button in self.level.buttons:
+                        if button.rect.collidepoint(x, y):
+                            function = button.activate()
+                            if function == "EXIT":
+                                running = False
+                            elif function == "SAVE":
+                                save_menu = SaveMenu(self.surface, self.scen, self.notes)
+                                save_menu.launch()
             self._render()
             pygame.display.update()
             self.clock.tick(60)
 
     def _render(self):
+        for room in self.level.room_sprites_G:
+            room.rerender()
         self.level.room_sprites_G.draw(self.surface)
+        self.level.buttons.draw(self.surface)
