@@ -9,6 +9,8 @@ You are required to have Poetry installed to run this project. More instructions
 1. Install dependencies using `poetry install`
 2. Initialise using `poetry run invoke build`
 3. Run the project using `poetry run invoke start`
+
+Optionally, you can run the work-in-progress GUI using `poetry run invoke test-gui` but this version of the game is still somewhat lacking compared to the terminal version.
 ## Links
 * [Latest Release](https://github.com/Veloxization/ot-harjoitustyo/releases/tag/viikko5.1)
 * [Usage Instructions](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/usage.md)
