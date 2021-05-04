@@ -12,7 +12,7 @@ You are required to have Poetry installed to run this project. More instructions
 
 Optionally, you can run the work-in-progress GUI using `poetry run invoke test-gui` but this version of the game is still somewhat lacking compared to the terminal version.
 ## Links
-* [Latest Release](https://github.com/Veloxization/ot-harjoitustyo/releases/tag/viikko5.1)
+* [Latest Release](https://github.com/Veloxization/ot-harjoitustyo/releases/tag/week6.0)
 * [Usage Instructions](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/usage.md)
 * [Software Requirements Specification](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/requirements.md)
 * [Architecture](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/architecture.md)
