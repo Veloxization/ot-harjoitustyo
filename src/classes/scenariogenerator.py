@@ -4,6 +4,30 @@ from classes.room import Room
 from classes.time import Time
 
 class ScenarioGenerator:
+    """The class that handles the generation of a scenario.
+
+    Attributes:
+        difficulty: The difficulty of the scenario, higher difficulty means more
+                    rooms and NPCs.
+        seed: The seed used by Python's random number generation, guarantees an
+                identical scenario if the same seed is used.
+        body_discovered_index: The time index at which an NPC discovers the
+                                murder victim.
+        murder_committed_index: The time at which the victim and the murderer
+                                are in the same room and the murder is
+                                committed.
+        time: The Time object used by the scenario.
+        rooms: A dictionary of rooms used in the scenario.
+        crime_scene: The room in which the victim is killed and found.
+        npcs: A list of NPCs involved in the scenario.
+        murderer: The culprit NPC of the scenario.
+        victim: The NPC who dies in this scenario.
+        liar: The liar NPC of this scenario.
+        obsessive: The obsessive NPC of this scenario.
+        discoverer: The NPC who reports the body. Can be the murderer.
+        whistle_blower: The NPC whose room the murderer claims to be in at
+                        murder time.
+    """
     def __init__(self,seed=None,difficulty=0):
         # Strings are accepted as a difficulty input just in case the user misunderstands the instructions
         if str(difficulty).lower() == "easy" or difficulty in ("0", 0):
@@ -158,6 +182,14 @@ class ScenarioGenerator:
         random.shuffle(self.npcs)
 
     def accuse(self, npc, index):
+        """The accusation function. Checks if the player's deduction on the
+        culprit and murder time is correct.
+
+        Args:
+            npc: The NPC the player is accusing.
+            index: The time index the player thinks the murder was committed at.
+        """
+        
         solved = False
         print(f"You: I think the murderer is {npc} and they committed their crime at {self.time.index_to_string(index)}!")
         if npc == self.murderer and index == self.murder_committed_index:

@@ -5,7 +5,18 @@ from classes.scenariogenerator import ScenarioGenerator
 from classes.notes import Notes
 
 class Save:
+    """A class that handles saving and loading scenarios."""
+
     def write_to_file(self,name,seed,difficulty,notes):
+        """Makes a new save file or replaces an old one.
+
+        Args:
+            name: The name of the save file.
+            seed: The seed of the scenario being saved.
+            difficulty: The difficulty of the scenario being saved.
+            notes: The NPC notes included with the scenario being saved.
+        """
+
         # Save selected seed and difficulty
         data = {'seed':seed, 'difficulty':difficulty}
         # Save the notes the player has collected
@@ -26,6 +37,12 @@ class Save:
         file.close()
 
     def load_from_file(self,name):
+        """Loads a scenario from a specific file.
+
+        Args:
+            name: The name of the file from which to load a scenario.
+        """
+
         # Open the given save file (may fail, change this!)
         file = open(f"src/data/saves/{name}", "r")
         # Convert file content to base64 data
@@ -51,6 +68,8 @@ class Save:
         return scenario, notes
 
     def list_saves(self):
+        """List the saves found in the saves directory."""
+        
         files = []
         for (dirpath, dirnames, filenames) in walk("src/data/saves"):
             files.extend(filenames)

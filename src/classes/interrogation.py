@@ -1,11 +1,31 @@
 from classes.time import Time
 
 class Interrogation:
+    """A class that handles the logic behind question the player can ask NPCs.
+
+    Attributes:
+        time: The Time object used in the scenario.
+        scenario: The scenario to which the interrogation is linked.
+    """
+
     def __init__(self, time, scenario):
+        """Constructor creates a new interrogation object.
+
+        Args:
+            time: The Time object used in the scenario.
+            scenario: The current scenario.
+        """
+
         self.time = time
         self.scenario = scenario
 
     def where_were_you_at(self, npc, index):
+        """The NPC tells their location at a specific time or lies about it depending on personality
+
+        Args:
+            npc: The NPC to whom the question is posed.
+            index: The time that is asked, index 0 is 18:00 and each following index adds 10 minutes.
+        """
         # Can't ask questions from the dead!
         if npc == self.scenario.victim:
             print("You: I'm a detective, not a psychic.")
@@ -26,6 +46,13 @@ class Interrogation:
         return npc.get_room_at_time(index).name
 
     def who_were_you_with_at(self, npc, index):
+        """The NPC lists the people they were with at the specified time, or lies about it.
+
+        Args:
+            npc: The NPC to whom the question is posed.
+            index: The time the NPC will recall, each number adding 10 minutes to 18:00.
+        """
+
         if npc == self.scenario.victim:
             print("You: I'm a detective, not a psychic.")
             return
@@ -56,6 +83,15 @@ class Interrogation:
                 return "Alone"
 
     def where_were_they_at(self, asked_npc, answer_npc, index):
+        """The NPC tells where another NPC was, or replies with I don't know if
+        they weren't in the same or adjacent room.
+
+        Args:
+            asked_npc: The NPC to whom the question is posed.
+            answer_npc: The NPC whose location the player wants to know.
+            index: The time when the NPC's location is wanted.
+        """
+
         if asked_npc == self.scenario.victim:
             print("You: I'm a detective, not a psychic.")
             return
