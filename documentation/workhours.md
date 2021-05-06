@@ -17,4 +17,5 @@
 | 2.5. | 3:00 | Implemented the map, implemented the intro sequence, added more tests |
 | 3.5. | 2:00 | Added exit game and save game options to the game scene, a scenario can now be loaded from Load Game |
 | 4.5. | 1:30 | Added docstring documentation to the core classes, expanded the architecture description. |
-| **Total**| **33:30**| |
+| 6.5. | 2:00 | Fixed a bug in the main menu, added floor change buttons to the game scene, added the base for a notes menu. |
+| **Total**| **35:30**| |

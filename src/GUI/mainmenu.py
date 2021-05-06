@@ -73,12 +73,15 @@ class MainMenu:
         self.return_to_main_menu()
 
     def load_game(self):
+        if self.loaded_save == None:
+            return
         self.new_game_menu.disable()
         self.load_game_menu.disable()
         self.menu.disable()
         self.surface.fill((0,0,0))
         if self.loaded_save == "New Game":
             self.open_new_game_menu()
+            return
         saveloader = Save()
         scenario, notes = saveloader.load_from_file(self.loaded_save)
         scene = GameScene(self.surface,self.clock,scenario,notes)
