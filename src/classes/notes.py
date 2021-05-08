@@ -17,7 +17,7 @@ class Notes:
 
         self.npc = npc
         self.scenario = scenario
-        unknowns = ["UNKNOWN" for i in range(scenario.body_discovered_index)]
+        unknowns = ["UNKNOWN" for i in range(scenario.body_discovered_index+1)]
         self.routine = unknowns.copy()
         self.company = unknowns.copy()
         self.npc_location_at_time = [unknowns.copy() for i in range(len(scenario.npcs))]
@@ -83,12 +83,11 @@ class Notes:
         """Returns the full list of NPCs with whom the NPC in question was with
         at different times.
         """
-        
         companies = []
         index = 0
         for company in self.company:
             to_add = f"{self.scenario.time.index_to_string(index)} "
-            if type(company) == list:
+            if isinstance(company, list):
                 to_add += ', '.join(company)
             else:
                 to_add += company

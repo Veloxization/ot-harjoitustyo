@@ -49,10 +49,9 @@ class Npc:
             other: The object to which this NPC is compared.
         """
 
-        if type(other) == str:
+        if isinstance(other, str):
             return self.name == other
-        else:
-            return self.name == other.name
+        return self.name == other.name
 
     def __str__(self):
         """What is displayed when the NPC is referred to in a string."""

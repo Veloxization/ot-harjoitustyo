@@ -34,7 +34,6 @@ class Time:
         if index < 0:
             index = 0
         delta = datetime.timedelta(minutes=index * 10)
-        time = self.start_time + delta
         # Index cannot go over final index!
         if index < self.final_index:
             return self.start_time + delta
@@ -95,7 +94,6 @@ class Time:
         Args:
             string: The string to convert.
         """
-        
         # Return None if converting to string fails
         try:
             time = datetime.datetime.strptime(string, "%H:%M")

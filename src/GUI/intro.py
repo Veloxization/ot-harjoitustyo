@@ -18,7 +18,6 @@ by {scen.discoverer}.
 
 No one has seen or heard anything.
 It's up to you to solve this mystery."""
-        print("Do stuff here")
 
     def start(self):
         board = Board(self.surface)
@@ -80,7 +79,7 @@ class Text(pygame.sprite.Sprite):
             width = self.board.surface.get_width()
             height = self.board.surface.get_height()
             x_coord = (width - sizing[0]) // 2
-            y_coord = (width - sizing[1]) // 2
+            y_coord = (height - sizing[1]) // 2
             s = font.render("Press any key", 1, (255,255,255))
             self.board.image.blit(s, (x_coord, y_coord))
             self.done = True

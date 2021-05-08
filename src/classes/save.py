@@ -1,4 +1,5 @@
-import json, base64
+import json
+import base64
 from os import walk
 
 from classes.scenariogenerator import ScenarioGenerator
@@ -69,7 +70,6 @@ class Save:
 
     def list_saves(self):
         """List the saves found in the saves directory."""
-        
         files = []
         for (dirpath, dirnames, filenames) in walk("src/data/saves"):
             files.extend(filenames)

@@ -2,7 +2,6 @@
 import pygame
 
 from GUI.mainmenu import MainMenu
-from GUI.gamescene import GameScene
 
 if __name__ == "__main__":
     pygame.init()

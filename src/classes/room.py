@@ -35,10 +35,9 @@ class Room:
             other: The object to which the Room is compared to.
         """
 
-        if type(other) == str:
+        if isinstance(other, str):
             return self.name == other
-        else:
-            return self.name == other.name
+        return self.name == other.name
 
     def __str__(self):
         """Referred to when there's a need for a string display of the Room.

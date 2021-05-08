@@ -18,4 +18,5 @@
 | 3.5. | 2:00 | Added exit game and save game options to the game scene, a scenario can now be loaded from Load Game |
 | 4.5. | 1:30 | Added docstring documentation to the core classes, expanded the architecture description. |
 | 6.5. | 2:00 | Fixed a bug in the main menu, added floor change buttons to the game scene, added the base for a notes menu. |
+| 8.5. | 2:00 | Fixed the general look of the code in core classes, implemented the personal routine notes menu, fixed a bug that would cause notes to be only displayed until 10 minutes before the body was discovered
 | **Total**| **35:30**| |
