@@ -20,4 +20,5 @@
 | 6.5. | 2:00 | Fixed a bug in the main menu, added floor change buttons to the game scene, added the base for a notes menu. |
 | 8.5. | 2:00 | Fixed the general look of the code in core classes, implemented the personal routine notes menu, fixed a bug that would cause notes to be only displayed until 10 minutes before the body was discovered
 | 13.5.| 1:30 | Added the rest of the notes menus, started implementing the accusation menu |
-| **Total**| **39:00**| |
+| 14.5.| 3:00 | Added an interrogation menu, added the accusation menu, small edits to the game scene |
+| **Total**| **42:00**| |

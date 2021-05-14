@@ -2,6 +2,8 @@ import pygame
 
 from GUI.gamescene_menus import SaveMenu
 from GUI.gamescene_menus import NotesMenu
+from GUI.gamescene_menus import InterrogationMenu
+from GUI.gamescene_menus import AccusationMenu
 
 class RoomGraphic(pygame.sprite.Sprite):
     def __init__(self, surface, scenario, name, x=0, y=0, width=5, height=5):
@@ -112,6 +114,8 @@ class Level:
         self.texts = pygame.sprite.Group()
         self.floor_buttons = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
+        self.interrogating = None
+        self.question = None
         self.floor = 0
         self._initialize_sprites(surface)
 
@@ -246,22 +250,33 @@ class Level:
         text = "1F"
         width, height = font.size(text)
         x, y = surface.get_width() - width * 2, height * 2
-        self.add_button(text, x, y, "1F")
+        if self.scenario.difficulty == 2:
+            self.add_button(text, x, y, "1F")
         # Add the floor G button
         text = "G"
         width, height = font.size(text)
         y += height
-        self.add_button(text, x, y, "G")
+        if self.scenario.difficulty > 0:
+            self.add_button(text, x, y, "G")
         # Add the floor LG button
         text = "LG"
         width, height = font.size(text)
         y += height
-        self.add_button(text, x, y, "LG")
+        if self.scenario.difficulty > 0:
+            self.add_button(text, x, y, "LG")
+        # Add the interrogation menu button
+        text = "Interrogate"
+        self.add_button(text, 0, 0, "INTERROGATE")
         # Add the notes menu button
         text = "Notes"
         width, height = font.size(text)
-        x, y = 0, surface.get_height() // 2
+        x, y = 0, (surface.get_height() // 2) - height // 2
         self.add_button(text, x, y, "NOTES")
+        # Add accusation menu button
+        text = "Accuse"
+        width, height = font.size(text)
+        x, y = 0, (surface.get_height() // 2) + height // 2
+        self.add_button(text, x, y, "ACCUSE")
 
     def add_room(self, name, floor, x, y, width, height):
         room = RoomGraphic(self.surface, self.scenario, name, x, y, width, height)
@@ -305,9 +320,15 @@ class GameScene:
                             elif function == "SAVE":
                                 save_menu = SaveMenu(self.surface, self.scen, self.notes)
                                 save_menu.launch()
+                            elif function == "INTERROGATE":
+                                interrogation_menu = InterrogationMenu(self.surface, self.scen)
+                                interrogation_menu.launch()
                             elif function == "NOTES":
                                 notes_menu = NotesMenu(self.surface, self.scen, self.notes)
                                 notes_menu.launch()
+                            elif function == "ACCUSE":
+                                accusation_menu = AccusationMenu(self.surface, self.scen)
+                                accusation_menu.launch()
                             elif function == "1F":
                                 self.surface.fill((0,0,0))
                                 self.active_floor = self.level.room_sprites_1F

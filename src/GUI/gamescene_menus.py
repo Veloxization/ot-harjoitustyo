@@ -2,6 +2,7 @@ import pygame
 import pygame_menu
 
 from classes.save import Save
+from classes.interrogation import Interrogation
 
 class SaveMenu:
     def __init__(self, surface, scenario, notes):
@@ -72,7 +73,10 @@ class NotesMenu:
         self.suspect = npc[0][0]
 
     def change_third_suspect(self,npc,index):
-        self.third_suspect = npc[0][0]
+        if "(dead)" in npc[0][0]:
+            self.third_suspect = npc[0][0].split()[0]
+        else:
+            self.third_suspect = npc[0][0]
 
     def open_personal_routine_menu(self):
         self.surface.fill((0,0,0))
@@ -91,7 +95,10 @@ class NotesMenu:
         npcs = []
         index = 0
         for npc in self.scenario.npcs:
-            if npc != self.suspect:
+            if npc == self.scenario.victim:
+                npcs.append((f"{npc.name} (dead)", index))
+                index += 1
+            elif npc != self.suspect:
                 npcs.append((npc.name, index))
                 index += 1
         self.third_suspect = npcs[0][0]
@@ -147,6 +154,68 @@ class RoutineMenu(pygame.sprite.Sprite):
         text = font.render(string, 1, (255,255,255))
         surface.blit(text, self.rect)
 
+class InterrogationMenu:
+    def __init__(self, surface, scenario):
+        self.interrogation = Interrogation(scenario.time, scenario)
+        self.surface = surface
+        self.scenario = scenario
+        width, height = surface.get_width() * 0.7, surface.get_height() * 0.7
+        self.menu = pygame_menu.Menu("Interrogate", width, height)
+        self.other_npcs = ["EMPTY"]
+        npcs = []
+        index = 0
+        for npc in scenario.npcs:
+            if npc != scenario.victim:
+                npcs.append((npc.name, index))
+                index += 1
+        self.suspect = None
+        questions = [("Where were you at __:__?", 0),
+                     ("Who were you with at __:__?", 1),
+                     ("Where was __ at __:__?", 2)]
+        times = []
+        for index in range(scenario.body_discovered_index + 1):
+            time = scenario.time.index_to_string(index)
+            times.append((time, index))
+        self.suspect_selector = self.menu.add.dropselect("Suspect: ", npcs, default=0, onchange=self.change_suspect)
+        self.question_selector = self.menu.add.dropselect("Question: ", questions, default=0, onchange=self.change_question)
+        self.other_person_selector = self.menu.add.dropselect("Person: ", self.other_npcs, default=0)
+        self.other_person_selector.hide()
+        self.change_suspect(npcs, 0)
+        self.time_selector = self.menu.add.dropselect("Time: ", times, default=0)
+        self.interrogate_button = self.menu.add.button("Interrogate", self.interrogate)
+        self.back_button = self.menu.add.button("Back", self.return_to_game)
+
+    def launch(self):
+        self.surface.fill((0,0,0))
+        self.menu.mainloop(self.surface)
+
+    def return_to_game(self):
+        self.surface.fill((0,0,0))
+        self.menu.disable()
+
+    def interrogate(self):
+        print("CHANGE THE INTERROGATION CLASS FIRST")
+
+    def change_question(self, question, index):
+        if index == 2:
+            self.other_person_selector.show()
+        else:
+            self.other_person_selector.hide()
+
+    def change_suspect(self, npc, index):
+        self.suspect = npc[0][0]
+        self.other_npcs = []
+        index = 0
+        for npc in self.scenario.npcs:
+            if npc == self.scenario.victim:
+                self.other_npcs.append((f"{npc.name} (dead)", index))
+                index += 1
+            elif npc != self.suspect:
+                self.other_npcs.append((npc.name, index))
+                index += 1
+        self.other_person_selector.update_items(self.other_npcs)
+        self.other_person_selector.make_selection_drop()
+
 class AccusationMenu:
     def __init__(self, surface, scenario):
         self.surface = surface
@@ -156,10 +225,41 @@ class AccusationMenu:
         npcs = []
         index = 0
         for npc in scenario.npcs:
-            npcs.append((npc.name, index))
-            index += 1
+            if npc != self.scenario.victim:
+                npcs.append((npc.name, index))
+                index += 1
         self.suspect = npcs[0][0]
+
+        times = []
+        index = 0
+        for time_index in range(self.scenario.body_discovered_index + 1):
+            time = self.scenario.time.index_to_string(time_index)
+            times.append((time, index))
+            index += 1
+        self.time = times[0][0]
+        self.menu.add.label("Select your suspect and murder time")
         self.menu.add.dropselect("Suspect: ", npcs, default=0, onchange=self.change_suspect)
-        self.menu.add.dropselect("Time: ", npcs, default=0, onchange=self.change_time)
+        self.menu.add.dropselect("Time: ", times, default=0, onchange=self.change_time)
         self.menu.add.button("Accuse", self.accusation)
         self.menu.add.button("Back", self.return_to_game)
+
+    def launch(self):
+        self.menu.mainloop(self.surface)
+
+    def return_to_game(self):
+        self.surface.fill((0,0,0))
+        self.menu.disable()
+
+    def accusation(self):
+        for npc in self.scenario.npcs:
+            if npc == self.suspect:
+                accused_npc = npc
+                break
+        accused_time = self.scenario.time.string_to_index(self.time)
+        self.scenario.accuse(accused_npc, accused_time)
+
+    def change_suspect(self, npc, index):
+        self.suspect = npc[0][0]
+
+    def change_time(self, time, index):
+        self.time = time[0][0]
