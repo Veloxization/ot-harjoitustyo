@@ -102,6 +102,19 @@ class Button(pygame.sprite.Sprite):
     def activate(self):
         return self.function
 
+class Dialogue(pygame.sprite.Sprite):
+    def __init__(self, surface, text, pos):
+        super().__init__()
+        self.text = text.split("")
+        self.cooldowns = {" ": 1, "\n": 10}
+        width = surface.get_width() // 5
+        height = surface.get_height() // 3
+        self.image = pygame.Surface((width, height))
+        self.rect = pygame.Rect(pos[0], pos[1], 1, 1)
+
+    def write_next_letter(self):
+        letter = ""
+
 class Level:
     def __init__(self, surface, scenario):
         self.surface = surface
@@ -303,6 +316,11 @@ class GameScene:
 
     def start(self):
         running = True
+        # Initialise all menus
+        interrogation_menu = InterrogationMenu(self.surface, self.scen)
+        accusation_menu = AccusationMenu(self.surface, self.scen)
+        save_menu = SaveMenu(self.surface, self.scen, self.notes)
+        notes_menu = NotesMenu(self.surface, self.scen, self.notes)
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -318,16 +336,19 @@ class GameScene:
                             if function == "EXIT":
                                 running = False
                             elif function == "SAVE":
-                                save_menu = SaveMenu(self.surface, self.scen, self.notes)
+                                save_menu.notes = self.notes
                                 save_menu.launch()
                             elif function == "INTERROGATE":
-                                interrogation_menu = InterrogationMenu(self.surface, self.scen)
+                                interrogation_menu.dialogue = (None, [])
                                 interrogation_menu.launch()
+                                answer_room = interrogation_menu.dialogue[0]
+                                dialogue = interrogation_menu.dialogue[1]
+                                if answer_room:
+                                    print(dialogue)
                             elif function == "NOTES":
-                                notes_menu = NotesMenu(self.surface, self.scen, self.notes)
+                                notes_menu.notes = self.notes
                                 notes_menu.launch()
                             elif function == "ACCUSE":
-                                accusation_menu = AccusationMenu(self.surface, self.scen)
                                 accusation_menu.launch()
                             elif function == "1F":
                                 self.surface.fill((0,0,0))
@@ -348,3 +369,14 @@ class GameScene:
                 room.rerender()
         self.active_floor.draw(self.surface)
         self.level.buttons.draw(self.surface)
+
+    def create_dialogue(self, dialogue):
+        interrogation_button = None
+        for button in self.level.buttons.sprites:
+            if button.text == "Interrogate":
+                interrogation_button = button
+                break
+        x, y = 0, button.rect.height + 10
+        dialogue = "\n".join(dialogue)
+
+        print("DIALOGUE")

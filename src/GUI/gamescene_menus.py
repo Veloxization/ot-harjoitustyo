@@ -57,6 +57,7 @@ class NotesMenu:
         self.selection_menu = pygame_menu.Menu(self.suspect, self.width, self.height)
 
     def launch(self):
+        self.menu.enable()
         self.menu.mainloop(self.surface)
 
     def return_to_game(self):
@@ -157,6 +158,7 @@ class RoutineMenu(pygame.sprite.Sprite):
 class InterrogationMenu:
     def __init__(self, surface, scenario):
         self.interrogation = Interrogation(scenario.time, scenario)
+        self.dialogue = (None, [])
         self.surface = surface
         self.scenario = scenario
         width, height = surface.get_width() * 0.7, surface.get_height() * 0.7
@@ -186,6 +188,7 @@ class InterrogationMenu:
         self.back_button = self.menu.add.button("Back", self.return_to_game)
 
     def launch(self):
+        self.menu.enable()
         self.surface.fill((0,0,0))
         self.menu.mainloop(self.surface)
 
@@ -194,7 +197,24 @@ class InterrogationMenu:
         self.menu.disable()
 
     def interrogate(self):
-        print("CHANGE THE INTERROGATION CLASS FIRST")
+        suspect = self.suspect_selector.get_value()[0][0]
+        other_person = self.other_person_selector.get_value()[0][0]
+        if "(dead)" in other_person:
+            other_person = other_person.split()[0]
+        for npc in self.scenario.npcs:
+            if npc.name == suspect:
+                suspect = npc
+            elif npc.name == other_person:
+                other_person = npc
+        question = self.question_selector.get_index()
+        time = self.time_selector.get_index()
+        if question == 0:
+            self.dialogue = self.interrogation.where_were_you_at(suspect, time)
+        elif question == 1:
+            self.dialogue = self.interrogation.who_were_you_with_at(suspect, time)
+        else:
+            self.dialogue = self.interrogation.where_were_they_at(suspect, other_person, time)
+        self.return_to_game()
 
     def change_question(self, question, index):
         if index == 2:
@@ -244,6 +264,7 @@ class AccusationMenu:
         self.menu.add.button("Back", self.return_to_game)
 
     def launch(self):
+        self.menu.enable()
         self.menu.mainloop(self.surface)
 
     def return_to_game(self):
