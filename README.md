@@ -16,4 +16,5 @@ Optionally, you can run the work-in-progress GUI using `poetry run invoke test-g
 * [Usage Instructions](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/usage.md)
 * [Software Requirements Specification](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/requirements.md)
 * [Architecture](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/architecture.md)
+* [Testing documentation](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/testing.md)
 * [Work hour sheet](https://github.com/Veloxization/ot-harjoitustyo/blob/master/documentation/workhours.md)

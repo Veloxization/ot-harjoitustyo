@@ -22,7 +22,6 @@ def coverage_report(ctx):
 def lint(ctx):
     ctx.run("pylint src")
 
-# A temporary task for GUI testing
 @task
-def test_gui(ctx):
-    ctx.run("python3 src/main.py")
+def debug(ctx):
+    ctx.run("python3 src/debug.py")

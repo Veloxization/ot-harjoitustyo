@@ -33,6 +33,8 @@ A higher difficulty level means you will have more NPCs to interrogate and more 
 Rooms are accessed by NPCs throughout the night. You can ask an NPC about which room they were with the *"Where were you at \_\_:\_\_?"* question and they will answer based on their personality.
 
 Each room has **adjacent rooms**, i.e. other rooms that can be directly accessed from that room. You can ask an NPC about where other NPCs were with the *"Where were they at \_\_:\_\_?"* question. If that other NPC was in the same or an adjacent room to the asked NPC, they will be able to tell (unless they're lying, of course).
+
+Note that even though two rooms may share a wall, it doesn't necessarily mean they are adjacent rooms. The *Wine Cellar* in the basement is not connected to the *Laboratory*, and the *Kitchen* and the *Dining Room* on the ground floor are not connected to the *Office* and the *Bathroom* respectively despite being connected my a wall.
 ### Saving
 You can save your progress at any time during gameplay by selecting the option. Saves are put in the `/src/data/saves` folder in base64 encoded JSON format. Saved files can be loaded to continue a previous investigation.
 ## Test
@@ -42,5 +44,5 @@ To generate a coverage report, use `poetry run invoke coverage-report`
 A coverage report will be generated in terminal but a folder called *htmlcov* will also be created in the root directory. Within it, you will find *index.html*. Opening it in browser will show a more visually pleasing coverage report.
 ## Pylint
 To run Pylint, use `poetry run invoke lint`
-## Test GUI
-To test the work-in-progress GUI, use `poetry run invoke test-gui`
+## Debug
+Come across a scenario that seems impossible to solve? Save your game and use `poetry run invoke debug` to see information about the save, including the scenario's solution.

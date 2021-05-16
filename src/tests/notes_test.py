@@ -5,7 +5,7 @@ from classes.scenariogenerator import ScenarioGenerator
 from classes.time import Time
 from classes.interrogation import Interrogation
 
-class TestInterrogation(unittest.TestCase):
+class TestNotes(unittest.TestCase):
     def setUp(self):
         self.scenario = ScenarioGenerator("seed for testing")
         self.time = Time(36)

@@ -136,15 +136,30 @@ class RoutineMenu(pygame.sprite.Sprite):
         max_width = 0
         buffer = font.size("X")[0]
         for entry in note_entry:
-            width, height = font.size(entry)
-            if self.rect.y + height > surface.get_height():
-                self.rect.y = 0
-                self.rect = self.rect.move(max_width + buffer, 0)
-                max_width = 0
+            if font.size(entry)[0] > surface.get_width() // 3:
+                words = entry.split()
+                while words:
+                    line = ""
+                    while font.size(line)[0] < surface.get_width() // 3 and words:
+                        word = words.pop(0)
+                        width = font.size(word)[0]
+                        line += word + " "
+                    max_width = max(font.size(line)[0], max_width)
+                    width = 0
+                    height = font.size(line)[1]
+                    text = font.render(line, 1, (255,255,255))
+                    surface.blit(text, self.rect)
+                    self.rect.y += height
+            else:
+                width, height = font.size(entry)
+                if self.rect.y + height > surface.get_height():
+                    self.rect.y = 0
+                    self.rect = self.rect.move(max_width + buffer, 0)
+                    max_width = 0
+                text = font.render(entry, 1, (255,255,255))
+                surface.blit(text, self.rect)
+                self.rect = self.rect.move(0, height)
             max_width = max(width, max_width)
-            text = font.render(entry, 1, (255,255,255))
-            surface.blit(text, self.rect)
-            self.rect = self.rect.move(0, height)
 
     def render_instructive_text(self, surface):
         font = pygame.font.SysFont("arial", 16)
@@ -237,9 +252,11 @@ class InterrogationMenu:
         self.other_person_selector.make_selection_drop()
 
 class AccusationMenu:
-    def __init__(self, surface, scenario):
+    def __init__(self, surface, scenario, clock):
         self.surface = surface
         self.scenario = scenario
+        self.clock = clock
+        self.solved = False
         self.width, self.height = surface.get_width() * 0.7, surface.get_height() * 0.7
         self.menu = pygame_menu.Menu("Accuse", self.width, self.height)
         npcs = []
@@ -277,10 +294,80 @@ class AccusationMenu:
                 accused_npc = npc
                 break
         accused_time = self.scenario.time.string_to_index(self.time)
-        self.scenario.accuse(accused_npc, accused_time)
+        solved, dialogue = self.scenario.accuse(accused_npc, accused_time)
+        self.solved = solved
+        accusation_scene = AccusationDialogue(self.surface, dialogue, solved)
+        dialogue_graphic = pygame.sprite.RenderPlain()
+        dialogue_graphic.add(accusation_scene)
+        self.surface.fill((0,0,0))
+        while accusation_scene.dialogue:
+            accusation_scene.render_dialogue()
+            dialogue_graphic.draw(self.surface)
+            pygame.display.update()
+            self.clock.tick(60)
+        accusation_scene.render_results()
+        dialogue_graphic.draw(self.surface)
+        pygame.display.update()
+        waiting_for_user_input = True
+        while waiting_for_user_input:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    waiting_for_user_input = False
+                if event.type == pygame.KEYDOWN:
+                    waiting_for_user_input = False
+        self.return_to_game()
 
     def change_suspect(self, npc, index):
         self.suspect = npc[0][0]
 
     def change_time(self, time, index):
         self.time = time[0][0]
+
+class AccusationDialogue(pygame.sprite.Sprite):
+    def __init__(self, surface, dialogue, solved):
+        super().__init__()
+        dialogue_text = '\n'.join(dialogue)
+        self.words = dialogue_text.split()
+        self.dialogue = [char for char in dialogue_text]
+        self.solved = solved
+        self.surface = surface
+        self.width, self.height = surface.get_width() * 0.7, surface.get_height() * 0.7
+        self.image = pygame.Surface((self.width, self.height))
+        x, y = (surface.get_width() - self.width) // 2, (surface.get_height() - self.height) // 2
+        self.rect = pygame.Rect(x, y, 1, 1)
+        self.x, self.y = 0, 0
+
+    def render_dialogue(self):
+        letter = self.dialogue.pop(0)
+        word = ""
+        if letter == ' ':
+            word = self.words.pop(0)
+        font = pygame.font.SysFont("monospace", 16)
+        width, height = font.size(letter)
+        word_width = font.size(word)[0]
+        letter_graphic = font.render(letter, 1, (255,255,255))
+        if letter == '\n' or self.x + word_width > self.width-5:
+            self.x = 0
+            self.y += height
+        else:
+            self.image.blit(letter_graphic, (self.x, self.y))
+            self.x += width
+
+    def render_results(self):
+        victory_text = "MYSTERY SOLVED!\nPress any key to return to menu"
+        failure_text = "NOT QUITE!\nPress any key to return to the map"
+        if self.solved:
+            text_to_render = victory_text
+        else:
+            text_to_render = failure_text
+        top_text = text_to_render.split('\n')[0]
+        bottom_text = text_to_render.split('\n')[1]
+        font = pygame.font.SysFont("arial", 16)
+        self.x = (self.width - font.size(top_text)[0]) // 2
+        self.y += font.size(top_text)[1] * 2
+        text = font.render(top_text, 1, (255,255,255))
+        self.image.blit(text, (self.x, self.y))
+        self.x = (self.width - font.size(bottom_text)[0]) // 2
+        self.y += font.size(top_text)[1]
+        text = font.render(bottom_text, 1, (255,255,255))
+        self.image.blit(text, (self.x, self.y))

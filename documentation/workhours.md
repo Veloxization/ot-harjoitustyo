@@ -22,4 +22,5 @@
 | 13.5.| 1:30 | Added the rest of the notes menus, started implementing the accusation menu |
 | 14.5.| 3:00 | Added an interrogation menu, added the accusation menu, small edits to the game scene |
 | 15.5.| 1:00 | Started implementing the interrogation dialogue |
-| **Total**| **43:00**| |
+| 16.5.| 6:00 | Finished the project, updated requirements.md to reflect the finished state, added testing documentation, added more automated tests, removed text based UI completely, added a debug feature. |
+| **Total**| **49:00**| |

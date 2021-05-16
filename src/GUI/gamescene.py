@@ -16,29 +16,12 @@ class RoomGraphic(pygame.sprite.Sprite):
             self.crime_scene = True
         self.rect = pygame.Rect(x, y, width, height)
         self.image = pygame.Surface((width, height))
-        # Yellow is used as a highlight
-        self.yellow = pygame.Surface((width, height))
         pygame.draw.rect(surface, (255,255,255), self.rect, 4)
-        self.highlighted = False
         self.name = name
         self.namegraphic = pygame.font.SysFont("arial", 14)
         self.render_room_name(width, height)
         if self.crime_scene:
             self.render_body_text()
-
-    def toggle_highlight(self):
-        self.highlighted = not self.highlighted
-        if self.highlighted:
-            self.yellow.fill((255,255,0))
-            self.yellow.set_alpha(40)
-            self.image.blit(self.yellow, (0,0))
-        else:
-            self.yellow.fill((0,0,0))
-            self.yellow.set_alpha(255)
-            self.image.blit(self.yellow, (0,0))
-            self.render_room_name(self.width, self.height)
-            if self.crime_scene:
-                self.render_body_text()
 
     def rerender(self):
         pygame.draw.rect(self.surface, (255,255,255), self.rect, 4)
@@ -105,15 +88,36 @@ class Button(pygame.sprite.Sprite):
 class Dialogue(pygame.sprite.Sprite):
     def __init__(self, surface, text, pos):
         super().__init__()
-        self.text = text.split("")
-        self.cooldowns = {" ": 1, "\n": 10}
-        width = surface.get_width() // 5
-        height = surface.get_height() // 3
-        self.image = pygame.Surface((width, height))
+        self.pos = pos
+        self.surface = surface
+        self.x = pos[0]
+        self.y = pos[1]
+        self.words = text.split()
+        self.text = [char for char in text]
+        self.width = surface.get_width() // 4 - 5
+        self.height = surface.get_height()
+        self.image = pygame.Surface((self.width, self.height))
         self.rect = pygame.Rect(pos[0], pos[1], 1, 1)
 
     def write_next_letter(self):
-        letter = ""
+        letter = self.text.pop(0)
+        word = ""
+        if letter == ' ':
+            word = self.words.pop(0)
+        font = pygame.font.SysFont("monospace", 16)
+        width, height = font.size(letter)
+        if word:
+            word_width = font.size(word)[0]
+        else:
+            word_width = 0
+        if letter == '\n' or self.x + word_width > self.width - 2:
+            self.x = self.pos[0]
+            self.y += height
+        if letter != '\n':
+            letter_graph = font.render(letter, 1, (255,255,255))
+            self.image.blit(letter_graph, (self.x, self.y))
+            self.x += width
+        return letter
 
 class Level:
     def __init__(self, surface, scenario):
@@ -126,10 +130,8 @@ class Level:
         self.buttons = pygame.sprite.Group()
         self.texts = pygame.sprite.Group()
         self.floor_buttons = pygame.sprite.Group()
+        self.dialogue = pygame.sprite.Group()
         self.all_sprites = pygame.sprite.Group()
-        self.interrogating = None
-        self.question = None
-        self.floor = 0
         self._initialize_sprites(surface)
 
     def _initialize_sprites(self, surface):
@@ -318,7 +320,7 @@ class GameScene:
         running = True
         # Initialise all menus
         interrogation_menu = InterrogationMenu(self.surface, self.scen)
-        accusation_menu = AccusationMenu(self.surface, self.scen)
+        accusation_menu = AccusationMenu(self.surface, self.scen, self.clock)
         save_menu = SaveMenu(self.surface, self.scen, self.notes)
         notes_menu = NotesMenu(self.surface, self.scen, self.notes)
         while running:
@@ -327,9 +329,6 @@ class GameScene:
                     running = False
                 if event.type == pygame.MOUSEBUTTONUP:
                     x, y = pygame.mouse.get_pos()
-                    for roomgraph in self.level.all_room_sprites:
-                        if roomgraph.rect.collidepoint(x, y):
-                            roomgraph.toggle_highlight()
                     for button in self.level.buttons:
                         if button.rect.collidepoint(x, y):
                             function = button.activate()
@@ -341,15 +340,31 @@ class GameScene:
                             elif function == "INTERROGATE":
                                 interrogation_menu.dialogue = (None, [])
                                 interrogation_menu.launch()
-                                answer_room = interrogation_menu.dialogue[0]
+                                answer_data = interrogation_menu.dialogue[0]
                                 dialogue = interrogation_menu.dialogue[1]
-                                if answer_room:
-                                    print(dialogue)
+                                if answer_data:
+                                    self._render()
+                                    pygame.display.update()
+                                    self.create_dialogue(dialogue)
+                                    question = interrogation_menu.question_selector.get_index()
+                                    time = interrogation_menu.time_selector.get_index()
+                                    npc = interrogation_menu.suspect
+                                    other_npc = interrogation_menu.other_person_selector.get_value()[0][0]
+                                    if "(dead)" in other_npc:
+                                        other_npc = other_npc.split()[0]
+                                    if question == 0:
+                                        self.notes[npc].add_routine_to_notes(time, answer_data)
+                                    elif question == 1:
+                                        self.notes[npc].add_company_to_notes(time, answer_data)
+                                    elif question == 2:
+                                        self.notes[npc].add_npc_location_to_notes(time, other_npc, answer_data)
                             elif function == "NOTES":
                                 notes_menu.notes = self.notes
                                 notes_menu.launch()
                             elif function == "ACCUSE":
                                 accusation_menu.launch()
+                                if accusation_menu.solved:
+                                    running = False
                             elif function == "1F":
                                 self.surface.fill((0,0,0))
                                 self.active_floor = self.level.room_sprites_1F
@@ -372,11 +387,23 @@ class GameScene:
 
     def create_dialogue(self, dialogue):
         interrogation_button = None
-        for button in self.level.buttons.sprites:
+        for button in self.level.buttons.sprites():
             if button.text == "Interrogate":
                 interrogation_button = button
                 break
-        x, y = 0, button.rect.height + 10
+        x, y = 0, button.rect.height
         dialogue = "\n".join(dialogue)
-
-        print("DIALOGUE")
+        cooldown = 0
+        cooldowns = {' ': 1, '\n': 10}
+        dialogue_graph = Dialogue(self.surface, dialogue, (x, y))
+        dialogue_renderer = pygame.sprite.RenderPlain()
+        dialogue_renderer.add(dialogue_graph)
+        while dialogue_graph.text:
+            if not cooldown:
+                letter = dialogue_graph.write_next_letter()
+                cooldowns.get(letter)
+            else:
+                cooldown -= 1
+            dialogue_renderer.draw(self.surface)
+            pygame.display.update()
+            self.clock.tick(60)

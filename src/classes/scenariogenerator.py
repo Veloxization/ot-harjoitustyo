@@ -217,12 +217,12 @@ class ScenarioGenerator:
         """
 
         solved = False
-        print(f"You: I think the murderer is {npc} and they committed their crime at {self.time.index_to_string(index)}!")
+        dialogue = []
+        dialogue.append(f"You: I think the murderer is {npc} and they committed their crime at {self.time.index_to_string(index)}!")
         if npc == self.murderer and index == self.murder_committed_index:
-            print(f"{npc}: Not possible. I am sure I was in the {npc.fake_room_at_murder_time} at that time. There were no bodies.")
-            print(f"{self.whistle_blower}: You're lying! I was in the {self.whistle_blower.get_room_at_time(self.murder_committed_index)} at {self.time.index_to_string(index)}! You weren't there!")
-            print(f"YOU ARE CORRECT! {npc} is the murderer and the crime was committed at {self.time.index_to_string(index)}!")
+            dialogue.append(f"{npc}: Not possible. I am sure I was in the {npc.fake_room_at_murder_time} at that time. There were no bodies.")
+            dialogue.append(f"{self.whistle_blower}: You're lying! I was in the {self.whistle_blower.get_room_at_time(self.murder_committed_index)} at {self.time.index_to_string(index)}! You weren't there!")
             solved = True
         else:
-            print(f"{npc}: Not possible. I am sure I was in the {npc.get_room_at_time(index)} at that time. There were no bodies.")
-        return solved
+            dialogue.append(f"{npc}: Not possible. I am sure I was in the {npc.get_room_at_time(index)} at that time. There were no bodies.")
+        return solved, dialogue
