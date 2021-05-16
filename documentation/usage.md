@@ -1,7 +1,5 @@
 # Usage
-**Note: Currently the project works through terminal only. There will be a GUI in the future!**
 ## Manual
-**Note: Some features mentioned in the manual may not be implemented yet!**
 ### How to Play
 #### Main Menu
 The _Main Menu_ gives you the following options: new game, load game, quit game
