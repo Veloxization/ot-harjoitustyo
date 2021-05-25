@@ -26,7 +26,7 @@ Only one will be generated for each scenario. An obsessive NPC will pick a rando
 ### Difficulties
 There are three difficulties: Easy, Normal and Hard.
 
-A higher difficulty level means you will have more NPCs to interrogate and more floors unlocked, giving you a lot of information to shift through.
+A higher difficulty level means you will have more NPCs to interrogate and more floors unlocked, giving you a lot of information to sift through.
 ### Rooms
 Rooms are accessed by NPCs throughout the night. You can ask an NPC about which room they were with the *"Where were you at \_\_:\_\_?"* question and they will answer based on their personality.
 
